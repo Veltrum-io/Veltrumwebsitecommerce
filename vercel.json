@@ -3,6 +3,22 @@
     {
       "source": "/",
       "destination": "/veltrum.html"
+    },
+    {
+      "source": "/AgenticTMS",
+      "destination": "/agentic-tms.html"
+    },
+    {
+      "source": "/agentictms",
+      "destination": "/agentic-tms.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms.html"
     }
   ]
 }
