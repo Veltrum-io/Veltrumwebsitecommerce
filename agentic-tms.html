@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Agentic TMS — Veltrum.io</title>
+<meta name="description" content="The first agent-native Transportation Management System. Hubs, fleet, drivers and routing — orchestrated by autonomous agents." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07060d;
+    --bg-2: #0d0b18;
+    --surface: #14111f;
+    --surface-2: #1a1729;
+    --surface-3: #211d34;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.18);
+    --text: #f5f3ff;
+    --text-dim: #b8b3d4;
+    --text-muted: #7e7899;
+    --primary: #8b5cf6;
+    --primary-2: #a78bfa;
+    --accent: #22d3ee;
+    --accent-2: #14b8a6;
+    --orange: #fb923c;
+    --pink: #f472b6;
+    --green: #34d399;
+    --red: #f87171;
+    --yellow: #facc15;
+    --gradient: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+    --gradient-2: linear-gradient(135deg, #f472b6 0%, #8b5cf6 50%, #22d3ee 100%);
+    --gradient-warm: linear-gradient(135deg, #fb923c 0%, #f472b6 100%);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  a { color: inherit; text-decoration: none; }
+
+  /* Background */
+  .grid-bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(139, 92, 246, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139, 92, 246, 0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 20%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 80%);
+  }
+  .blob {
+    position: fixed; border-radius: 50%; filter: blur(140px); opacity: 0.22; z-index: 0; pointer-events: none;
+    animation: float 22s ease-in-out infinite;
+  }
+  .blob-1 { width: 600px; height: 600px; background: #22d3ee; top: -200px; left: -150px; }
+  .blob-2 { width: 520px; height: 520px; background: #8b5cf6; top: 25%; right: -200px; animation-delay: -8s; }
+  .blob-3 { width: 700px; height: 700px; background: #14b8a6; bottom: -300px; left: 30%; opacity: 0.14; animation-delay: -15s; }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(40px, -40px) scale(1.08); }
+    66% { transform: translate(-30px, 40px) scale(0.95); }
+  }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 16px 5%;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(7, 6, 13, 0.65);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 800; font-size: 18px; letter-spacing: -0.02em;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--gradient);
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 15px;
+    box-shadow: 0 0 24px rgba(139,92,246,0.45);
+  }
+  .logo-product {
+    margin-left: 14px; padding-left: 14px;
+    border-left: 1px solid var(--border-strong);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .logo-product .pulse-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 10px var(--green);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .nav-links {
+    display: flex; gap: 28px; list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-dim); font-size: 14px; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    padding: 9px 18px; background: var(--gradient); color: #fff;
+    border-radius: 8px; font-weight: 600; font-size: 13px;
+    box-shadow: 0 0 20px rgba(139,92,246,0.35);
+    transition: transform 0.2s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-cta:hover { transform: translateY(-1px); }
+
+  section { padding: 110px 5%; position: relative; z-index: 1; }
+  .container { max-width: 1280px; margin: 0 auto; }
+
+  /* Eyebrow / titles */
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px;
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 100px;
+    font-size: 12px;
+    color: var(--primary-2);
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-bottom: 22px;
+  }
+  .section-eyebrow {
+    color: var(--primary-2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; text-transform: uppercase;
+    letter-spacing: 0.18em; font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 800; letter-spacing: -0.025em; line-height: 1.05;
+    margin-bottom: 22px;
+  }
+  .section-subtitle {
+    color: var(--text-dim); font-size: 17px; line-height: 1.65;
+    max-width: 680px;
+  }
+  .gradient-text {
+    background: var(--gradient);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .gradient-warm {
+    background: var(--gradient-warm);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    padding: 160px 5% 80px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    width: 100%;
+  }
+  .hero-l h1 {
+    font-size: clamp(44px, 6vw, 76px);
+    font-weight: 900; letter-spacing: -0.03em;
+    line-height: 1.0;
+    margin-bottom: 26px;
+  }
+  .hero-l h1 .word-rotate {
+    display: inline-block;
+    color: transparent;
+    background: var(--gradient-2);
+    -webkit-background-clip: text; background-clip: text;
+  }
+  .hero-l p.lead {
+    font-size: 18px; color: var(--text-dim);
+    margin-bottom: 32px; max-width: 560px;
+    line-height: 1.65;
+  }
+  .hero-cta-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
+  .btn-primary {
+    padding: 14px 28px;
+    background: var(--gradient);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 28px rgba(139,92,246,0.45);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: transform 0.2s;
+    font-family: inherit;
+  }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-secondary {
+    padding: 14px 28px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.04); border-color: var(--primary); }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+    max-width: 580px;
+  }
+  .hero-stat .v { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+  .hero-stat .v .gradient-text { display: inline; }
+  .hero-stat .l { font-size: 11px; color: var(--text-muted); margin-top: 4px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em; }
+
+  /* Hero visual: stylized routing graph */
+  .hero-r {
+    position: relative;
+    aspect-ratio: 1;
+    max-width: 560px;
+    margin-left: auto;
+  }
+  .hero-orb {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(139,92,246,0.25), transparent 60%),
+                radial-gradient(circle at 70% 70%, rgba(34,211,238,0.2), transparent 60%);
+    filter: blur(0px);
+  }
+  .ring {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(139,92,246,0.2);
+    border-radius: 50%;
+    animation: rotate-ring 40s linear infinite;
+  }
+  .ring:nth-child(2) { inset: 60px; border-color: rgba(34,211,238,0.18); animation-direction: reverse; animation-duration: 30s; }
+  .ring:nth-child(3) { inset: 120px; border-color: rgba(244,114,182,0.18); animation-duration: 22s; }
+  .ring:nth-child(4) { inset: 180px; border-color: rgba(52,211,153,0.18); animation-direction: reverse; animation-duration: 18s; }
+  @keyframes rotate-ring {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .ring-node {
+    position: absolute; top: -8px; left: 50%;
+    width: 16px; height: 16px;
+    background: var(--gradient); border-radius: 50%;
+    box-shadow: 0 0 18px var(--primary);
+    transform: translateX(-50%);
+  }
+  .ring:nth-child(2) .ring-node { background: linear-gradient(135deg, #22d3ee, #34d399); box-shadow: 0 0 18px var(--accent); }
+  .ring:nth-child(3) .ring-node { background: linear-gradient(135deg, #f472b6, #fb923c); box-shadow: 0 0 18px var(--pink); }
+  .ring:nth-child(4) .ring-node { background: linear-gradient(135deg, #34d399, #facc15); box-shadow: 0 0 18px var(--green); }
+
+  .hero-core {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139,92,246,0.6), rgba(34,211,238,0.4) 60%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    color: #fff;
+    box-shadow: 0 0 60px rgba(139,92,246,0.6);
+    animation: pulse-core 3s ease-in-out infinite;
+  }
+  @keyframes pulse-core {
+    0%, 100% { box-shadow: 0 0 60px rgba(139,92,246,0.6); transform: translate(-50%, -50%) scale(1); }
+    50% { box-shadow: 0 0 90px rgba(139,92,246,0.8); transform: translate(-50%, -50%) scale(1.04); }
+  }
+
+  /* Beta badge */
+  .beta-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px;
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    border-radius: 100px;
+    font-size: 11px;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .beta-pill::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent);
+    animation: pulse-dot 1.6s ease-in-out infinite;
+  }
+
+  /* === DASHBOARD MOCKUP (light theme inset) === */
+  .tms-mockup-section { padding: 60px 5% 120px; }
+  .tms-mockup-wrap {
+    max-width: 1380px; margin: 0 auto;
+    position: relative;
+  }
+  .mockup-glow {
+    position: absolute;
+    inset: -40px;
+    background: radial-gradient(ellipse at center, rgba(139,92,246,0.2), transparent 70%);
+    filter: blur(40px);
+    z-index: -1;
+  }
+  .browser-frame {
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 60px 140px rgba(0,0,0,0.55), 0 0 100px rgba(139,92,246,0.15);
+  }
+  .browser-bar {
+    padding: 14px 22px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .traffic { display: flex; gap: 7px; }
+  .traffic span { width: 12px; height: 12px; border-radius: 50%; }
+  .traffic span:nth-child(1) { background: #ff5f57; }
+  .traffic span:nth-child(2) { background: #febc2e; }
+  .traffic span:nth-child(3) { background: #28c840; }
+  .url-bar {
+    flex: 1;
+    padding: 7px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .url-lock { color: var(--green); }
+
+  /* Inside-frame light theme */
+  .tms-app {
+    --t-bg: #f7f8fb;
+    --t-card: #ffffff;
+    --t-border: #e6e8ee;
+    --t-text: #0e1525;
+    --t-dim: #6b7388;
+    --t-muted: #98a0b3;
+    --t-purple: #8b5cf6;
+    --t-purple-soft: #f3eeff;
+    --t-green: #10b981;
+    --t-yellow: #f59e0b;
+    --t-yellow-soft: #fff7e6;
+    --t-blue: #3b82f6;
+    --t-cyan: #14b8a6;
+    --t-cyan-soft: #d1fae8;
+    background: var(--t-bg);
+    color: var(--t-text);
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 760px;
+  }
+
+  .tms-side {
+    background: #fff;
+    border-right: 1px solid var(--t-border);
+    padding: 20px 0;
+    font-size: 13px;
+    color: var(--t-dim);
+  }
+  .tms-side-h {
+    padding: 0 22px 14px;
+    font-size: 11px;
+    color: var(--t-muted);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .tms-side-section {
+    margin-bottom: 18px;
+  }
+  .tms-side-label {
+    padding: 10px 22px 6px;
+    font-size: 10px;
+    color: var(--t-muted);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .tms-side-item {
+    padding: 9px 22px;
+    display: flex; align-items: center; gap: 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+    color: var(--t-dim);
+  }
+  .tms-side-item:hover { background: #f3f4f7; color: var(--t-text); }
+  .tms-side-item.active {
+    background: var(--t-purple-soft);
+    color: var(--t-purple);
+    font-weight: 600;
+    border-right: 2px solid var(--t-purple);
+  }
+
+  .tms-main {
+    display: flex; flex-direction: column;
+    background: var(--t-bg);
+    overflow: hidden;
+  }
+  .tms-top {
+    padding: 14px 26px;
+    background: #fff;
+    border-bottom: 1px solid var(--t-border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .tms-search {
+    flex: 1;
+    padding: 9px 16px 9px 38px;
+    background: var(--t-bg);
+    border: 1px solid var(--t-border);
+    border-radius: 9px;
+    color: var(--t-muted);
+    font-size: 13px;
+    position: relative;
+  }
+  .tms-search-wrap {
+    position: relative;
+    flex: 1;
+    max-width: 600px;
+  }
+  .tms-search-wrap::before {
+    content: '⌕';
+    position: absolute;
+    left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--t-muted);
+    font-size: 14px;
+  }
+  .tms-tenant {
+    padding: 6px 12px;
+    background: var(--t-bg);
+    border: 1px solid var(--t-border);
+    border-radius: 100px;
+    color: var(--t-dim);
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .tms-icon-btn {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: var(--t-bg);
+    border: 1px solid var(--t-border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--t-dim);
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .tms-content {
+    padding: 26px 26px 12px;
+    display: flex; flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+  }
+  .tms-h2 {
+    font-size: 20px; font-weight: 700;
+    color: var(--t-text);
+    letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .tms-h2-icon {
+    width: 26px; height: 26px;
+    background: var(--t-purple-soft);
+    color: var(--t-purple);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+  }
+  .tms-h2-sub {
+    color: var(--t-muted); font-size: 13px;
+    margin-top: 4px; font-weight: 400;
+  }
+
+  .tms-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .tms-card {
+    background: #fff;
+    border: 1px solid var(--t-border);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .tms-card-h {
+    font-size: 14px; font-weight: 700;
+    color: var(--t-text);
+    margin-bottom: 4px;
+  }
+  .tms-card-sub {
+    color: var(--t-muted);
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+  .tms-tile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .tms-tile {
+    background: var(--t-bg);
+    border: 1px solid var(--t-border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .tms-tile-yellow {
+    background: var(--t-yellow-soft);
+    border-color: rgba(245, 158, 11, 0.25);
+  }
+  .tms-tile-l {
+    color: var(--t-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .tms-tile-v { font-size: 13px; }
+  .tms-tile-v strong { font-size: 18px; font-weight: 700; color: var(--t-text); margin-right: 4px; letter-spacing: -0.01em; }
+  .tms-tile-v.green { color: var(--t-green); font-weight: 700; }
+  .tms-tile-v.yellow { color: var(--t-yellow); font-weight: 700; }
+
+  /* Dark agentic engine card */
+  .tms-card-dark {
+    background: #0f1626;
+    border: 1px solid #1a2336;
+    border-radius: 12px;
+    padding: 20px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .tms-card-dark::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; width: 60%; height: 60%;
+    background: radial-gradient(circle at top right, rgba(34,211,238,0.18), transparent 70%);
+    pointer-events: none;
+  }
+  .tms-dark-eyebrow {
+    color: var(--t-cyan);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+    margin-bottom: 6px;
+    position: relative;
+  }
+  .tms-dark-h {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .tms-dark-sub {
+    color: rgba(255,255,255,0.65);
+    font-size: 12px;
+    margin-bottom: 18px;
+    line-height: 1.5;
+    position: relative;
+  }
+  .tms-progress-row {
+    margin-bottom: 12px; position: relative;
+  }
+  .tms-progress-row:last-child { margin-bottom: 0; }
+  .tms-progress-l {
+    color: var(--t-cyan);
+    font-size: 11px;
+    margin-bottom: 4px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .tms-progress-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .tms-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--t-cyan), var(--t-purple));
+    border-radius: 2px;
+    transform-origin: left;
+    animation: fill-grow 1.4s ease-out;
+  }
+  @keyframes fill-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  .tms-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 16px;
+  }
+  .tms-uptime-num {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--t-green);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .tms-uptime-l {
+    color: var(--t-muted);
+    font-size: 12px;
+    margin-top: 6px;
+    margin-bottom: 14px;
+  }
+  .tms-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 30px;
+  }
+  .tms-bars span {
+    flex: 1;
+    background: var(--t-cyan);
+    border-radius: 2px 2px 0 0;
+    opacity: 0.7;
+  }
+
+  .tms-2grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .tms-mini {
+    background: var(--t-bg);
+    border: 1px solid var(--t-border);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .tms-mini-h {
+    font-weight: 700; font-size: 13px;
+    color: var(--t-text);
+    margin-bottom: 4px;
+  }
+  .tms-mini-d {
+    color: var(--t-muted);
+    font-size: 11px;
+  }
+
+  .tms-card-dark-2 {
+    background: #0a0f1c;
+    border-radius: 12px;
+    padding: 20px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .tms-card-dark-2::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(34,211,238,0.18), transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(139,92,246,0.18), transparent 50%);
+    pointer-events: none;
+  }
+  .tms-dark2-h {
+    font-size: 16px; font-weight: 700; position: relative;
+    margin-bottom: 12px;
+  }
+  .tms-dark2-stat {
+    position: relative;
+    margin-bottom: 12px;
+  }
+  .tms-dark2-stat .v {
+    font-size: 28px; font-weight: 800;
+    background: linear-gradient(135deg, #22d3ee, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+  }
+  .tms-dark2-stat .l {
+    color: rgba(255,255,255,0.55); font-size: 11px;
+    margin-top: 2px;
+  }
+
+  .tms-logs {
+    background: #fff;
+    border: 1px solid var(--t-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .tms-logs-h {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--t-border);
+    font-weight: 700;
+    color: var(--t-text);
+    font-size: 14px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .tms-live-pill {
+    padding: 3px 10px;
+    background: var(--t-cyan-soft);
+    color: var(--t-cyan);
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tms-live-pill::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--t-cyan);
+    border-radius: 50%;
+    animation: pulse-dot 1.4s ease-in-out infinite;
+  }
+  table.tms-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table.tms-tbl th {
+    text-align: left;
+    padding: 12px 20px;
+    font-size: 10px;
+    color: var(--t-muted);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--t-bg);
+  }
+  table.tms-tbl td {
+    padding: 14px 20px;
+    border-top: 1px solid var(--t-border);
+    color: var(--t-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  table.tms-tbl td:nth-child(3) { font-family: 'Inter', sans-serif; color: var(--t-text); }
+  .agent-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .agent-pill.r { background: var(--t-purple-soft); color: var(--t-purple); }
+  .agent-pill.b { background: #e0f2fe; color: #0284c7; }
+  .agent-pill.g { background: #dcfce7; color: #16a34a; }
+  .agent-pill.y { background: var(--t-yellow-soft); color: var(--t-yellow); }
+  .agent-pill.p { background: #fce7f3; color: #db2777; }
+
+  /* === CAPABILITIES === */
+  .caps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 60px;
+  }
+  .cap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .cap:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-strong);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+  }
+  .cap::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gradient);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .cap:hover::before { opacity: 1; }
+  .cap-icon {
+    width: 50px; height: 50px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 18px;
+    color: #fff;
+  }
+  .cap-1 .cap-icon { background: linear-gradient(135deg, #8b5cf6, #22d3ee); }
+  .cap-2 .cap-icon { background: linear-gradient(135deg, #f472b6, #fb923c); }
+  .cap-3 .cap-icon { background: linear-gradient(135deg, #22d3ee, #14b8a6); }
+  .cap-4 .cap-icon { background: linear-gradient(135deg, #fb923c, #facc15); }
+  .cap-5 .cap-icon { background: linear-gradient(135deg, #34d399, #22d3ee); }
+  .cap-6 .cap-icon { background: linear-gradient(135deg, #f87171, #f472b6); }
+  .cap h3 {
+    font-size: 20px; font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+  .cap p {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+  .cap-features {
+    list-style: none;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .cap-features li {
+    color: var(--text-dim);
+    font-size: 13px;
+    padding: 5px 0 5px 22px;
+    position: relative;
+  }
+  .cap-features li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--primary-2);
+    font-weight: 700;
+  }
+
+  /* === AGENTS === */
+  .tms-agents {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 60px;
+  }
+  .tms-agent {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s;
+  }
+  .tms-agent:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+  }
+  .tms-agent-top {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 14px;
+  }
+  .tms-agent-avatar {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+  .tms-agent-avatar::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; right: -2px;
+    width: 12px; height: 12px;
+    background: var(--green);
+    border: 2px solid var(--surface);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--green);
+  }
+  .tms-agent-name {
+    font-size: 16px; font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .tms-agent-role {
+    color: var(--text-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .tms-agent-desc {
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .tms-agent-kpi {
+    display: flex; gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .tms-agent-kpi span strong { color: var(--text); font-weight: 700; }
+
+  /* === ARCHITECTURE / INGESTION === */
+  .arch {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 50px;
+    margin-top: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .arch::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(139,92,246,0.1), transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(34,211,238,0.1), transparent 50%);
+    pointer-events: none;
+  }
+  .arch-flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 24px;
+    align-items: center;
+    position: relative;
+  }
+  .arch-col {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .arch-col-h {
+    font-size: 11px;
+    color: var(--primary-2);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .arch-item {
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--text-dim);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .arch-item .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  .arch-arrow {
+    color: var(--primary-2);
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  /* === ENTERPRISE GRID === */
+  .ent-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: 50px;
+  }
+  .ent-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: all 0.3s;
+  }
+  .ent-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+  }
+  .ent-icon {
+    width: 38px; height: 38px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-bottom: 14px;
+    background: linear-gradient(135deg, rgba(139,92,246,0.18), rgba(34,211,238,0.12));
+    color: var(--primary-2);
+    border: 1px solid rgba(139,92,246,0.25);
+  }
+  .ent-card h4 {
+    font-size: 15px; font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .ent-card p { color: var(--text-dim); font-size: 13px; line-height: 1.5; }
+
+  /* === CTA === */
+  .cta {
+    text-align: center;
+    padding: 100px 5%;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-box {
+    max-width: 880px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(34,211,238,0.08));
+    border: 1px solid rgba(139,92,246,0.3);
+    border-radius: 24px;
+    padding: 64px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(139,92,246,0.4), rgba(34,211,238,0.2), rgba(244,114,182,0.3));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    padding: 1px;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  .cta-box h2 {
+    font-size: clamp(32px, 4.5vw, 48px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+    line-height: 1.1;
+  }
+  .cta-box p {
+    color: var(--text-dim);
+    font-size: 17px;
+    max-width: 560px;
+    margin: 0 auto 30px;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 5%;
+    color: var(--text-muted);
+    font-size: 13px;
+    position: relative; z-index: 1;
+  }
+  .footer-content {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+  .footer-links {
+    display: flex; gap: 28px;
+    list-style: none; flex-wrap: wrap;
+  }
+  .footer-links a { color: var(--text-dim); transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text); }
+
+  /* Reveal animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 1100px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 50px; }
+    .hero-r { max-width: 480px; margin: 0 auto; }
+    .hero-stats { max-width: 100%; }
+    .caps, .tms-agents { grid-template-columns: repeat(2, 1fr); }
+    .ent-grid { grid-template-columns: repeat(2, 1fr); }
+    .arch-flow { grid-template-columns: 1fr; }
+    .arch-arrow { transform: rotate(90deg); justify-self: center; }
+    .tms-row-3 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 760px) {
+    .nav-links { display: none; }
+    .logo-product { display: none; }
+    .hero { padding: 130px 5% 60px; }
+    .hero-l h1 { font-size: 40px; }
+    section { padding: 80px 5%; }
+    .hero-stats { grid-template-columns: repeat(2, 1fr); }
+    .caps, .tms-agents, .ent-grid { grid-template-columns: 1fr; }
+    .tms-app { grid-template-columns: 1fr; }
+    .tms-side { display: none; }
+    .tms-row, .tms-tile-grid, .tms-2grid { grid-template-columns: 1fr; }
+    .arch { padding: 28px; }
+    .cta-box { padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<nav>
+  <a href="veltrum.html" class="logo">
+    <div class="logo-mark">V</div>
+    <span>Veltrum<span style="color: var(--text-muted)">.io</span></span>
+    <span class="logo-product"><span class="pulse-dot"></span>Agentic TMS</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#capabilities">Capabilities</a></li>
+    <li><a href="#agents">Agents</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#enterprise">Enterprise</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Request demo →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-l">
+      <div class="beta-pill">Closed beta · 12 design partners</div>
+      <h1>The first <span class="word-rotate">agent-native</span> Transportation Management System.</h1>
+      <p class="lead">
+        Hubs, fleet, drivers, carriers and routes — orchestrated by a fleet of autonomous agents, not dashboards. Veltrum's Agentic TMS continuously plans, executes and self-corrects across your entire logistics network.
+      </p>
+      <div class="hero-cta-row">
+        <a href="#cta" class="btn-primary">Request a demo <span>→</span></a>
+        <a href="#mockup" class="btn-secondary">See the Command Center <span>↓</span></a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="v"><span class="gradient-text">99.98%</span></div>
+          <div class="l">SLA uptime</div>
+        </div>
+        <div class="hero-stat">
+          <div class="v"><span class="gradient-text">−24%</span></div>
+          <div class="l">Cost / shipment</div>
+        </div>
+        <div class="hero-stat">
+          <div class="v"><span class="gradient-text">+18%</span></div>
+          <div class="l">On-time delivery</div>
+        </div>
+        <div class="hero-stat">
+          <div class="v"><span class="gradient-text">4.7s</span></div>
+          <div class="l">Avg. reroute</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-r">
+      <div class="hero-orb"></div>
+      <div class="ring"><div class="ring-node"></div></div>
+      <div class="ring"><div class="ring-node"></div></div>
+      <div class="ring"><div class="ring-node"></div></div>
+      <div class="ring"><div class="ring-node"></div></div>
+      <div class="hero-core">TMS</div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD MOCKUP -->
+<section id="mockup" class="tms-mockup-section">
+  <div class="container" style="text-align: center; max-width: 820px; margin: 0 auto 60px;">
+    <div class="section-eyebrow reveal">The Command Center</div>
+    <h2 class="section-title reveal">One pane of glass for<br><span class="gradient-text">your entire logistics estate.</span></h2>
+    <p class="section-subtitle reveal" style="margin: 0 auto;">
+      Every shipment, hub, driver and carrier — observable, controllable, and continuously optimised by agents that work 24/7. Live activity from your fleet streams in below.
+    </p>
+  </div>
+
+  <div class="tms-mockup-wrap reveal">
+    <div class="mockup-glow"></div>
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="traffic"><span></span><span></span><span></span></div>
+        <div class="url-bar">
+          <span class="url-lock">⬢</span>
+          veltrum.io / agentic-tms / command-center
+        </div>
+      </div>
+
+      <div class="tms-app">
+        <!-- Sidebar -->
+        <aside class="tms-side">
+          <div class="tms-side-h">Command Center</div>
+
+          <div class="tms-side-section">
+            <div class="tms-side-label">Operations</div>
+            <div class="tms-side-item active">Control Tower</div>
+            <div class="tms-side-item">Shipment pipeline</div>
+          </div>
+
+          <div class="tms-side-section">
+            <div class="tms-side-label">Strategy &amp; Optimization</div>
+            <div class="tms-side-item">Route optimizer</div>
+            <div class="tms-side-item">Carrier allocation</div>
+            <div class="tms-side-item">Operations</div>
+          </div>
+
+          <div class="tms-side-section">
+            <div class="tms-side-label">Management &amp; Governance</div>
+            <div class="tms-side-item">Finance Tower</div>
+            <div class="tms-side-item">Mistake Intel</div>
+            <div class="tms-side-item">System Health</div>
+          </div>
+
+          <div class="tms-side-section">
+            <div class="tms-side-label">Settings</div>
+            <div class="tms-side-item">Configuration</div>
+            <div class="tms-side-item">Hub management</div>
+            <div class="tms-side-item">Routes</div>
+            <div class="tms-side-item">Carrier management</div>
+            <div class="tms-side-item">Members</div>
+          </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="tms-main">
+          <div class="tms-top">
+            <div class="tms-search-wrap">
+              <input class="tms-search" placeholder="Lookup AWB, Shipment ID, or Fleet Vehicle..." readonly />
+            </div>
+            <div class="tms-tenant">veltrum · supabase</div>
+            <div class="tms-icon-btn">🔔</div>
+            <div class="tms-icon-btn">?</div>
+            <div class="tms-icon-btn">⊞</div>
+          </div>
+
+          <div class="tms-content">
+            <div>
+              <div class="tms-h2"><div class="tms-h2-icon">⊞</div>System Ecosystem Overview</div>
+              <div class="tms-h2-sub">Global logistics infrastructure architecture and active agentic modules.</div>
+            </div>
+
+            <div class="tms-row">
+              <div class="tms-card">
+                <div class="tms-card-h">Operations Hub</div>
+                <div class="tms-card-sub">Live slices — stitched later</div>
+                <div class="tms-tile-grid">
+                  <div class="tms-tile">
+                    <div class="tms-tile-l">Control Tower</div>
+                    <div class="tms-tile-v green">Active</div>
+                  </div>
+                  <div class="tms-tile">
+                    <div class="tms-tile-l">Shipment pipeline</div>
+                    <div class="tms-tile-v"><strong>2,491</strong>Shipments</div>
+                  </div>
+                  <div class="tms-tile">
+                    <div class="tms-tile-l">Fleet Command</div>
+                    <div class="tms-tile-v"><strong>88%</strong>Utilization</div>
+                  </div>
+                  <div class="tms-tile tms-tile-yellow">
+                    <div class="tms-tile-l">Hub Network</div>
+                    <div class="tms-tile-v yellow"><strong>3</strong>Warnings</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tms-card-dark">
+                <div class="tms-dark-eyebrow">Agentic Engine</div>
+                <div class="tms-dark-h">Optimization Core</div>
+                <div class="tms-dark-sub">Autonomous agents are currently rerouting 14 shipments and rebalancing 3 hubs.</div>
+                <div class="tms-progress-row">
+                  <div class="tms-progress-l">Route Optimizer</div>
+                  <div class="tms-progress-bar"><div class="tms-progress-fill" style="width: 78%; background: linear-gradient(90deg, #14b8a6, #22d3ee)"></div></div>
+                </div>
+                <div class="tms-progress-row">
+                  <div class="tms-progress-l">Carrier Allocation</div>
+                  <div class="tms-progress-bar"><div class="tms-progress-fill" style="width: 64%; background: linear-gradient(90deg, #34d399, #14b8a6)"></div></div>
+                </div>
+                <div class="tms-progress-row">
+                  <div class="tms-progress-l">Driver Dispatch</div>
+                  <div class="tms-progress-bar"><div class="tms-progress-fill" style="width: 82%; background: linear-gradient(90deg, #a78bfa, #22d3ee)"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tms-row-3">
+              <div class="tms-card">
+                <div class="tms-card-h">System health</div>
+                <div class="tms-uptime-num">99.98%</div>
+                <div class="tms-uptime-l">Uptime (rolling 30d)</div>
+                <div class="tms-bars">
+                  <span style="height: 70%"></span>
+                  <span style="height: 80%"></span>
+                  <span style="height: 65%"></span>
+                  <span style="height: 90%"></span>
+                  <span style="height: 75%"></span>
+                  <span style="height: 85%"></span>
+                  <span style="height: 100%"></span>
+                  <span style="height: 88%"></span>
+                  <span style="height: 80%"></span>
+                  <span style="height: 95%"></span>
+                  <span style="height: 92%"></span>
+                  <span style="height: 78%"></span>
+                  <span style="height: 86%"></span>
+                  <span style="height: 84%"></span>
+                </div>
+              </div>
+
+              <div class="tms-card">
+                <div class="tms-card-h" style="display:flex; justify-content: space-between; align-items: center;">
+                  <span>Governance &amp; finance</span>
+                  <span style="color: var(--t-purple); font-size: 11px; font-weight: 600; cursor: pointer;">View full audit</span>
+                </div>
+                <div class="tms-card-sub" style="margin-bottom: 12px;">&nbsp;</div>
+                <div class="tms-2grid">
+                  <div class="tms-mini">
+                    <div class="tms-mini-h">Finance Tower</div>
+                    <div class="tms-mini-d">GL sync &amp; accrual hooks</div>
+                  </div>
+                  <div class="tms-mini">
+                    <div class="tms-mini-h">Mistake Intel</div>
+                    <div class="tms-mini-d">Root-cause from agent traces</div>
+                  </div>
+                  <div class="tms-mini">
+                    <div class="tms-mini-h">Security</div>
+                    <div class="tms-mini-d">mTLS, tenant isolation, audit</div>
+                  </div>
+                  <div class="tms-mini">
+                    <div class="tms-mini-h">Global config</div>
+                    <div class="tms-mini-d">Policies &amp; regions (mock)</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tms-card-dark-2">
+                <div class="tms-dark2-h" style="position: relative;">Active agents</div>
+                <div class="tms-dark2-stat">
+                  <div class="v">12 / 14</div>
+                  <div class="l">Online · 2 in cooldown</div>
+                </div>
+                <div class="tms-dark2-stat" style="margin-bottom: 0;">
+                  <div class="v">1,847</div>
+                  <div class="l">Decisions in last hour</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tms-logs">
+              <div class="tms-logs-h">
+                <span>Real-time agentic logs</span>
+                <span class="tms-live-pill">Live</span>
+              </div>
+              <table class="tms-tbl">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Agent</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>14:22:01</td><td><span class="agent-pill r">Route-Opt-4</span></td><td>Rerouted SEA-ORD via SLC due to heavy snow in the Pacific Northwest</td></tr>
+                  <tr><td>14:21:44</td><td><span class="agent-pill b">Risk-Intel-Alpha</span></td><td>Flagged carrier "TransGlobal" for rising late departure trend (last 7d)</td></tr>
+                  <tr><td>14:21:18</td><td><span class="agent-pill g">Hub-Balancer</span></td><td>Rebalanced 240 parcels from HYD-01 to HYD-03 to clear morning surge</td></tr>
+                  <tr><td>14:20:52</td><td><span class="agent-pill y">Driver-Dispatch</span></td><td>Reassigned trip #TR-9182 to driver D-3411 (ETA improvement: 38 min)</td></tr>
+                  <tr><td>14:20:33</td><td><span class="agent-pill p">Mistake-Intel</span></td><td>Root-caused 18% NDR cluster to wrong PIN-mapping for 6 zones; auto-patched</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section id="capabilities">
+  <div class="container">
+    <div class="reveal" style="text-align: center; max-width: 760px; margin: 0 auto;">
+      <div class="section-eyebrow">Core Capabilities</div>
+      <h2 class="section-title">Everything a TMS does —<br><span class="gradient-text">except a human runs it.</span></h2>
+      <p class="section-subtitle" style="margin: 0 auto;">
+        Hubs, fleet, drivers, ingestion, routing, exception handling. All the building blocks of modern logistics, redesigned around autonomous agents from day one.
+      </p>
+    </div>
+
+    <div class="caps">
+      <div class="cap cap-1 reveal">
+        <div class="cap-icon">🏭</div>
+        <h3>Hub Management</h3>
+        <p>Real-time inventory, capacity, and throughput across every fulfilment node. Agents reroute parcels between hubs to clear bottlenecks before they form.</p>
+        <ul class="cap-features">
+          <li>Live capacity heatmap across all hubs</li>
+          <li>SKU-level inventory &amp; movement</li>
+          <li>Auto-rebalancing across nearest hubs</li>
+          <li>SLA breach prediction &amp; pre-emption</li>
+        </ul>
+      </div>
+
+      <div class="cap cap-2 reveal">
+        <div class="cap-icon">🚚</div>
+        <h3>Fleet Command</h3>
+        <p>Vehicles, trucks, bikes, EVs — tracked, scored, and dispatched. Agents predict downtime, schedule maintenance, and pull underperformers off the road.</p>
+        <ul class="cap-features">
+          <li>Live vehicle telemetry &amp; geofencing</li>
+          <li>Utilisation, idle &amp; fuel-burn scoring</li>
+          <li>Predictive maintenance windows</li>
+          <li>Mixed-mode fleet (own + 3PL + EV)</li>
+        </ul>
+      </div>
+
+      <div class="cap cap-3 reveal">
+        <div class="cap-icon">👤</div>
+        <h3>Driver Operations</h3>
+        <p>Onboarding, attendance, shift planning, performance — all handled by agents. Drivers get the next-best trip; you get a self-managing field force.</p>
+        <ul class="cap-features">
+          <li>Shift &amp; roster auto-planning</li>
+          <li>Performance scorecards per driver</li>
+          <li>Incentive &amp; payout reconciliation</li>
+          <li>In-app comms &amp; escalation</li>
+        </ul>
+      </div>
+
+      <div class="cap cap-4 reveal">
+        <div class="cap-icon">⚡</div>
+        <h3>Ingestion Pipeline</h3>
+        <p>Plug in any order source — Shopify, marketplaces, EDI, custom APIs, CSV drops. Veltrum normalises, deduplicates, and enriches every record before it hits the network.</p>
+        <ul class="cap-features">
+          <li>40+ source connectors &amp; SDK</li>
+          <li>Schema-flexible ingestion (JSON, EDI, XML)</li>
+          <li>Address validation &amp; geocoding</li>
+          <li>Idempotent retries &amp; dead-letter queues</li>
+        </ul>
+      </div>
+
+      <div class="cap cap-5 reveal">
+        <div class="cap-icon">🧭</div>
+        <h3>Agentic Routing</h3>
+        <p>Routes aren't computed once a day — they're continuously re-evaluated by agents reacting to weather, traffic, capacity, and SLA risk in real time.</p>
+        <ul class="cap-features">
+          <li>Multi-leg, multi-modal optimisation</li>
+          <li>Live re-routing on disruption events</li>
+          <li>Cost vs. SLA vs. CO₂ trade-off control</li>
+          <li>Carrier allocation as part of routing</li>
+        </ul>
+      </div>
+
+      <div class="cap cap-6 reveal">
+        <div class="cap-icon">🛡️</div>
+        <h3>Issue Detection &amp; Mitigation</h3>
+        <p>Mistake Intel watches every shipment, every hop. It flags anomalies, root-causes them across systems, and either fixes them — or hands you a 1-click resolution.</p>
+        <ul class="cap-features">
+          <li>Anomaly detection on every event</li>
+          <li>Cross-system root-cause traces</li>
+          <li>Auto-mitigation playbooks</li>
+          <li>Escalation with full audit trail</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTS -->
+<section id="agents" style="background: var(--bg-2);">
+  <div class="container">
+    <div class="reveal" style="text-align: center; max-width: 760px; margin: 0 auto;">
+      <div class="section-eyebrow">The Agent Roster</div>
+      <h2 class="section-title">Your virtual <span class="gradient-text">logistics team</span> — on autopilot.</h2>
+      <p class="section-subtitle" style="margin: 0 auto;">
+        Each agent owns a function, not a task. They observe, decide, act, and report — across the full lifecycle of a shipment.
+      </p>
+    </div>
+
+    <div class="tms-agents">
+      <div class="tms-agent reveal">
+        <div class="tms-agent-top">
+          <div class="tms-agent-avatar" style="background: linear-gradient(135deg, #8b5cf6, #22d3ee)">RO</div>
+          <div>
+            <div class="tms-agent-name">Route-Opt</div>
+            <div class="tms-agent-role">Routing &amp; Optimisation</div>
+          </div>
+        </div>
+        <div class="tms-agent-desc">Continuously re-plans every active route against real-time traffic, weather and SLA risk. Median reroute time: 4.7s.</div>
+        <div class="tms-agent-kpi">
+          <span>Reroutes/day <strong>3.2k</strong></span>
+          <span>SLA save <strong>+18%</strong></span>
+        </div>
+      </div>
+
+      <div class="tms-agent reveal">
+        <div class="tms-agent-top">
+          <div class="tms-agent-avatar" style="background: linear-gradient(135deg, #f472b6, #fb923c)">CA</div>
+          <div>
+            <div class="tms-agent-name">Carrier-Alloc</div>
+            <div class="tms-agent-role">Carrier Allocation</div>
+          </div>
+        </div>
+        <div class="tms-agent-desc">Picks the right carrier for every shipment based on cost, SLA history, NDR risk and capacity. Renegotiates rates monthly.</div>
+        <div class="tms-agent-kpi">
+          <span>Carriers <strong>32</strong></span>
+          <span>Cost ↓ <strong>−14%</strong></span>
+        </div>
+      </div>
+
+      <div class="tms-agent reveal">
+        <div class="tms-agent-top">
+          <div class="tms-agent-avatar" style="background: linear-gradient(135deg, #22d3ee, #14b8a6)">DD</div>
+          <div>
+            <div class="tms-agent-name">Driver-Dispatch</div>
+            <div class="tms-agent-role">Driver Operations</div>
+          </div>
+        </div>
+        <div class="tms-agent-desc">Assigns the right trip to the right driver, builds shift rosters, runs incentive math, and handles last-minute reassignments.</div>
+        <div class="tms-agent-kpi">
+          <span>Drivers <strong>1.4k</strong></span>
+          <span>On-time <strong>96.2%</strong></span>
+        </div>
+      </div>
+
+      <div class="tms-agent reveal">
+        <div class="tms-agent-top">
+          <div class="tms-agent-avatar" style="background: linear-gradient(135deg, #fb923c, #facc15)">HB</div>
+          <div>
+            <div class="tms-agent-name">Hub-Balancer</div>
+            <div class="tms-agent-role">Hub Management</div>
+          </div>
+        </div>
+        <div class="tms-agent-desc">Predicts hub overflows hours ahead and pre-emptively diverts inbound and outbound flow across the network.</div>
+        <div class="tms-agent-kpi">
+          <span>Hubs <strong>48</strong></span>
+          <span>Overflow ↓ <strong>−61%</strong></span>
+        </div>
+      </div>
+
+      <div class="tms-agent reveal">
+        <div class="tms-agent-top">
+          <div class="tms-agent-avatar" style="background: linear-gradient(135deg, #34d399, #22d3ee)">RI</div>
+          <div>
+            <div class="tms-agent-name">Risk-Intel</div>
+            <div class="tms-agent-role">Risk &amp; Compliance</div>
+          </div>
+        </div>
+        <div class="tms-agent-desc">Watches carriers, drivers and lanes for emerging risk patterns. Pauses bad actors and proposes alternates with full evidence.</div>
+        <div class="tms-agent-kpi">
+          <span>Signals/day <strong>820</strong></span>
+          <span>False alerts <strong>&lt;3%</strong></span>
+        </div>
+      </div>
+
+      <div class="tms-agent reveal">
+        <div class="tms-agent-top">
+          <div class="tms-agent-avatar" style="background: linear-gradient(135deg, #a78bfa, #f472b6)">MI</div>
+          <div>
+            <div class="tms-agent-name">Mistake-Intel</div>
+            <div class="tms-agent-role">Issue Detection</div>
+          </div>
+        </div>
+        <div class="tms-agent-desc">Cross-system root-cause analysis on every NDR, RTO, weight-mismatch and exception. Auto-applies playbooks where safe.</div>
+        <div class="tms-agent-kpi">
+          <span>Issues/day <strong>1.1k</strong></span>
+          <span>Auto-fix <strong>72%</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INGESTION ARCHITECTURE -->
+<section id="architecture">
+  <div class="container">
+    <div class="reveal" style="text-align: center; max-width: 800px; margin: 0 auto;">
+      <div class="section-eyebrow">Ingestion Pipeline</div>
+      <h2 class="section-title">From raw orders to<br><span class="gradient-text">network-ready shipments.</span></h2>
+      <p class="section-subtitle" style="margin: 0 auto;">
+        Every order — wherever it comes from — passes through a deterministic pipeline before agents touch it. Ingest, normalise, validate, enrich, route.
+      </p>
+    </div>
+
+    <div class="arch reveal">
+      <div class="arch-flow">
+        <div class="arch-col">
+          <div class="arch-col-h">Sources</div>
+          <div class="arch-item"><span class="dot" style="background:var(--green)"></span>Shopify · Magento · WooCommerce</div>
+          <div class="arch-item"><span class="dot" style="background:var(--accent)"></span>Marketplace EDI (Amazon, Flipkart)</div>
+          <div class="arch-item"><span class="dot" style="background:var(--orange)"></span>Custom APIs &amp; webhooks</div>
+          <div class="arch-item"><span class="dot" style="background:var(--pink)"></span>SFTP / CSV drops</div>
+          <div class="arch-item"><span class="dot" style="background:var(--yellow)"></span>WMS &amp; ERP (SAP, NetSuite, Oracle)</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-col">
+          <div class="arch-col-h">Pipeline</div>
+          <div class="arch-item"><span class="dot" style="background:var(--primary)"></span>Schema normalisation</div>
+          <div class="arch-item"><span class="dot" style="background:var(--primary)"></span>Address validation &amp; geocoding</div>
+          <div class="arch-item"><span class="dot" style="background:var(--primary)"></span>Deduplication &amp; idempotency</div>
+          <div class="arch-item"><span class="dot" style="background:var(--primary)"></span>Enrichment (PIN, zone, weight)</div>
+          <div class="arch-item"><span class="dot" style="background:var(--primary)"></span>Policy &amp; SLA tagging</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-col">
+          <div class="arch-col-h">Agents</div>
+          <div class="arch-item"><span class="dot" style="background:var(--accent)"></span>Route-Opt picks the route</div>
+          <div class="arch-item"><span class="dot" style="background:var(--accent)"></span>Carrier-Alloc picks the carrier</div>
+          <div class="arch-item"><span class="dot" style="background:var(--accent)"></span>Hub-Balancer reserves capacity</div>
+          <div class="arch-item"><span class="dot" style="background:var(--accent)"></span>Driver-Dispatch assigns a driver</div>
+          <div class="arch-item"><span class="dot" style="background:var(--accent)"></span>Risk-Intel scores &amp; signs off</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENTERPRISE -->
+<section id="enterprise" style="background: var(--bg-2);">
+  <div class="container">
+    <div class="reveal" style="text-align: center; max-width: 760px; margin: 0 auto;">
+      <div class="section-eyebrow">Enterprise-ready</div>
+      <h2 class="section-title">Built for the way<br><span class="gradient-text">enterprise logistics works.</span></h2>
+      <p class="section-subtitle" style="margin: 0 auto;">
+        SOC 2, mTLS, tenant isolation, audit trails, on-prem options, region pinning, and a 99.98% SLA. Veltrum runs in your largest customer's procurement spreadsheet.
+      </p>
+    </div>
+
+    <div class="ent-grid">
+      <div class="ent-card reveal">
+        <div class="ent-icon">🛡️</div>
+        <h4>SOC 2 &amp; ISO 27001</h4>
+        <p>Type II audit in progress. Annual third-party penetration tests, evidence library on request.</p>
+      </div>
+      <div class="ent-card reveal">
+        <div class="ent-icon">🔐</div>
+        <h4>SSO &amp; SCIM</h4>
+        <p>Okta, Azure AD, Google Workspace. Just-in-time provisioning, granular role-based access.</p>
+      </div>
+      <div class="ent-card reveal">
+        <div class="ent-icon">🌐</div>
+        <h4>Region Pinning</h4>
+        <p>Pin tenants to ap-south-1, eu-west, or us-east. mTLS between every internal service hop.</p>
+      </div>
+      <div class="ent-card reveal">
+        <div class="ent-icon">📋</div>
+        <h4>Full Audit Trail</h4>
+        <p>Every agent decision, every override, every API call — immutable, signed, exportable.</p>
+      </div>
+      <div class="ent-card reveal">
+        <div class="ent-icon">⏱️</div>
+        <h4>99.98% SLA</h4>
+        <p>Multi-AZ, multi-region failover. Financially-backed credits, public status page.</p>
+      </div>
+      <div class="ent-card reveal">
+        <div class="ent-icon">🏛️</div>
+        <h4>Data Residency</h4>
+        <p>India, EU, US data residency available. DPDPA, GDPR &amp; HIPAA-friendly architecture.</p>
+      </div>
+      <div class="ent-card reveal">
+        <div class="ent-icon">⚙️</div>
+        <h4>VPC Peering</h4>
+        <p>Private link, VPC peering, allow-listed egress to your WMS, ERP and carrier APIs.</p>
+      </div>
+      <div class="ent-card reveal">
+        <div class="ent-icon">📞</div>
+        <h4>24×7 Premier Support</h4>
+        <p>Named CSM, 15-minute response on Sev-1, Slack Connect channel for engineering escalation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="cta">
+  <div class="cta-box reveal">
+    <h2>Stop running a TMS.<br><span class="gradient-text">Start steering one.</span></h2>
+    <p>
+      We're in closed beta with 12 design partners across e-commerce, 3PL and quick-commerce. If your network does over 50,000 shipments a month, let's talk.
+    </p>
+    <div style="display:flex; gap:16px; justify-content:center; flex-wrap: wrap;">
+      <a href="veltrum.html#waitlist" class="btn-primary">Request a demo <span>→</span></a>
+      <a href="mailto:tms@veltrum.io" class="btn-secondary">Email the team <span>↗</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <div>© 2026 Veltrum Technologies Pvt. Ltd. — Hyderabad, India</div>
+    <ul class="footer-links">
+      <li><a href="veltrum.html">Veltrum Platform</a></li>
+      <li><a href="#capabilities">Capabilities</a></li>
+      <li><a href="#enterprise">Enterprise</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="terms.html">Terms</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('in');
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Nav glass on scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      nav.style.background = 'rgba(7, 6, 13, 0.88)';
+      nav.style.boxShadow = '0 1px 0 0 rgba(255,255,255,0.05)';
+    } else {
+      nav.style.background = 'rgba(7, 6, 13, 0.65)';
+      nav.style.boxShadow = 'none';
+    }
+  });
+
+  // Live-feed: rotate the top log row every few seconds
+  const logRows = document.querySelectorAll('.tms-tbl tbody tr');
+  let logHighlight = 0;
+  setInterval(() => {
+    logRows.forEach(r => r.style.background = '');
+    if (logRows[logHighlight]) {
+      logRows[logHighlight].style.background = 'rgba(34, 211, 238, 0.06)';
+      logRows[logHighlight].style.transition = 'background 0.4s';
+    }
+    logHighlight = (logHighlight + 1) % logRows.length;
+  }, 2200);
+</script>
+
+</body>
+</html>

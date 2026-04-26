@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Veltrum · Agent Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07060d;
+    --bg-2: #0d0b18;
+    --surface: #14111f;
+    --surface-2: #1a1729;
+    --surface-3: #211d34;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.18);
+    --text: #f5f3ff;
+    --text-dim: #a8a3c4;
+    --text-muted: #6e6889;
+    --primary: #8b5cf6;
+    --accent: #22d3ee;
+    --pink: #f472b6;
+    --green: #34d399;
+    --orange: #fb923c;
+    --gradient: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+    --gradient-2: linear-gradient(135deg, #f472b6 0%, #8b5cf6 50%, #22d3ee 100%);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    width: 1440px;
+    height: 900px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Background blobs */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .blob-1 { width: 500px; height: 500px; background: #8b5cf6; opacity: 0.15; top: -180px; left: -100px; }
+  .blob-2 { width: 600px; height: 600px; background: #22d3ee; opacity: 0.12; bottom: -200px; right: -150px; }
+  .blob-3 { width: 400px; height: 400px; background: #f472b6; opacity: 0.08; top: 30%; left: 40%; }
+
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .browser-frame {
+    position: relative;
+    z-index: 1;
+    margin: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 100px rgba(139,92,246,0.1);
+    height: calc(100% - 48px);
+  }
+  .browser-bar {
+    padding: 14px 20px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .traffic { display: flex; gap: 7px; }
+  .traffic span { width: 12px; height: 12px; border-radius: 50%; }
+  .traffic span:nth-child(1) { background: #ff5f57; }
+  .traffic span:nth-child(2) { background: #febc2e; }
+  .traffic span:nth-child(3) { background: #28c840; }
+  .url {
+    flex: 1;
+    padding: 6px 16px;
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .url-lock { color: var(--green); }
+
+  .body {
+    padding: 28px 32px;
+    height: calc(100% - 48px);
+    overflow: hidden;
+  }
+
+  /* Header */
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .top-l h1 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .top-l .sub {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .top-r {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .cart {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  .cart-bubble {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f472b6, #fb923c);
+    color: #fff;
+    font-weight: 700;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 14px rgba(244,114,182,0.5);
+  }
+  .hire-btn {
+    padding: 10px 20px;
+    background: var(--gradient);
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 0 22px rgba(139,92,246,0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hire-btn .arrow { font-size: 14px; }
+
+  /* Main layout */
+  .main {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 24px;
+    height: calc(100% - 70px);
+  }
+
+  /* Sidebar */
+  .sidebar {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+  }
+  .search-box {
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 10px 14px;
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-bottom: 2px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .nav-item .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .nav-item .count {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .nav-item.active {
+    background: rgba(139, 92, 246, 0.12);
+    color: var(--text);
+    border-left: 2px solid var(--primary);
+    padding-left: 10px;
+  }
+  .nav-item.active .count { color: var(--primary); font-weight: 600; }
+
+  .nav-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 14px 0 10px;
+  }
+  .nav-section-h {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+    padding: 0 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Content area */
+  .content { overflow: hidden; display: flex; flex-direction: column; }
+
+  .filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .filter-label {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .chip {
+    padding: 6px 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--text-dim);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .chip.active {
+    background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(34,211,238,0.1));
+    border-color: var(--primary);
+    color: var(--text);
+  }
+  .filter-result {
+    margin-left: auto;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Agent grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr 1fr;
+    gap: 14px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .card.in-org {
+    border-color: rgba(34, 211, 238, 0.4);
+    background: linear-gradient(180deg, rgba(34, 211, 238, 0.08) 0%, var(--surface-2) 60%);
+  }
+  .card.in-org::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(34, 211, 238, 0.15), transparent 60%);
+    pointer-events: none;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .avatar {
+    width: 42px; height: 42px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+  .avatar::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; right: -2px;
+    width: 11px; height: 11px;
+    background: var(--green);
+    border: 2px solid var(--surface-2);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--green);
+  }
+  .card.in-org .avatar::after {
+    border-color: rgba(20, 28, 39, 0.85);
+  }
+
+  .badges {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-end;
+  }
+  .badge {
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .badge.in-org {
+    background: rgba(34, 211, 238, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+  }
+  .badge.popular {
+    background: rgba(139, 92, 246, 0.15);
+    color: #b59cff;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+  }
+  .badge.new {
+    background: rgba(52, 211, 153, 0.15);
+    color: var(--green);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+  }
+  .badge.recommended {
+    background: rgba(251, 146, 60, 0.15);
+    color: var(--orange);
+    border: 1px solid rgba(251, 146, 60, 0.3);
+  }
+
+  .card-role {
+    color: var(--text-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 2px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .card-name {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  .dept-tag {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .dept-tag.marketing { background: rgba(244, 114, 182, 0.12); color: var(--pink); }
+  .dept-tag.logistics { background: rgba(251, 146, 60, 0.12); color: var(--orange); }
+  .dept-tag.cx { background: rgba(34, 211, 238, 0.12); color: var(--accent); }
+  .dept-tag.finance { background: rgba(52, 211, 153, 0.12); color: var(--green); }
+  .dept-tag.inventory { background: rgba(167, 139, 250, 0.14); color: #c4b3ff; }
+
+  .card-desc {
+    color: var(--text-dim);
+    font-size: 12px;
+    line-height: 1.4;
+    margin-bottom: 12px;
+    flex: 1;
+  }
+
+  .kpis {
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    margin-bottom: 10px;
+  }
+  .kpi-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .kpi-row:last-child { margin-bottom: 0; }
+  .kpi-l { color: var(--text-muted); font-size: 11px; font-family: 'JetBrains Mono', monospace; }
+  .kpi-v { font-weight: 700; font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+  .kpi-bar {
+    margin-top: 3px;
+    height: 3px;
+    background: var(--surface-3);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .kpi-fill {
+    height: 100%;
+    background: var(--gradient);
+    border-radius: 2px;
+  }
+
+  .card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .stars {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    font-size: 11px;
+  }
+  .stars-icon {
+    color: #facc15;
+    letter-spacing: -1px;
+    font-size: 10px;
+  }
+  .add-btn {
+    padding: 6px 12px;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-3);
+    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .add-btn.in-org {
+    background: rgba(34, 211, 238, 0.18);
+    border-color: rgba(34, 211, 238, 0.4);
+    color: var(--accent);
+  }
+  .add-btn.gradient {
+    background: var(--gradient);
+    color: #fff;
+    border: none;
+    box-shadow: 0 0 12px rgba(139,92,246,0.4);
+  }
+
+  /* Footer text overlay */
+  .watermark {
+    position: absolute;
+    bottom: 38px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    color: var(--text-muted);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(7, 6, 13, 0.7);
+    padding: 7px 16px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+  }
+  .wm-logo {
+    width: 16px; height: 16px;
+    border-radius: 4px;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 800;
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<div class="browser-frame">
+  <div class="browser-bar">
+    <div class="traffic"><span></span><span></span><span></span></div>
+    <div class="url">
+      <span class="url-lock">⬢</span>
+      veltrum.io / workspace / agent-marketplace
+    </div>
+  </div>
+
+  <div class="body">
+    <!-- Top bar -->
+    <div class="top">
+      <div class="top-l">
+        <h1>Agent Marketplace</h1>
+        <div class="sub">32 agents · 8 departments · 6 active in your org</div>
+      </div>
+      <div class="top-r">
+        <div class="cart">
+          <span>Selected</span>
+          <span class="cart-bubble">2</span>
+        </div>
+        <button class="hire-btn">Deploy selected <span class="arrow">↗</span></button>
+      </div>
+    </div>
+
+    <!-- Main grid -->
+    <div class="main">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="search-box">
+          <span style="opacity:0.6">⌕</span>
+          <span>Search agents</span>
+        </div>
+
+        <div class="nav-section-h">Departments</div>
+        <div class="nav-item">
+          <span class="dot" style="background: var(--text-muted)"></span>
+          <span>All agents</span>
+          <span class="count">32</span>
+        </div>
+        <div class="nav-item">
+          <span class="dot" style="background: var(--primary)"></span>
+          <span>Storefront</span>
+          <span class="count">4</span>
+        </div>
+        <div class="nav-item active">
+          <span class="dot" style="background: var(--pink)"></span>
+          <span>Marketing</span>
+          <span class="count">6</span>
+        </div>
+        <div class="nav-item">
+          <span class="dot" style="background: var(--orange)"></span>
+          <span>Logistics</span>
+          <span class="count">5</span>
+        </div>
+        <div class="nav-item">
+          <span class="dot" style="background: var(--green)"></span>
+          <span>Finance</span>
+          <span class="count">3</span>
+        </div>
+        <div class="nav-item">
+          <span class="dot" style="background: var(--accent)"></span>
+          <span>Customer Exp.</span>
+          <span class="count">4</span>
+        </div>
+        <div class="nav-item">
+          <span class="dot" style="background: #f87171"></span>
+          <span>Returns</span>
+          <span class="count">3</span>
+        </div>
+        <div class="nav-item">
+          <span class="dot" style="background: #c4b3ff"></span>
+          <span>Inventory</span>
+          <span class="count">4</span>
+        </div>
+        <div class="nav-item">
+          <span class="dot" style="background: #facc15"></span>
+          <span>Analytics</span>
+          <span class="count">3</span>
+        </div>
+
+        <div class="nav-divider"></div>
+        <div class="nav-section-h">Status</div>
+        <div class="nav-item">
+          <span class="dot" style="background: var(--green); box-shadow: 0 0 8px var(--green)"></span>
+          <span>In your org</span>
+          <span class="count">6</span>
+        </div>
+        <div class="nav-item">
+          <span class="dot" style="background: var(--orange)"></span>
+          <span>Recommended</span>
+          <span class="count">5</span>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="content">
+        <div class="filters">
+          <span class="filter-label">Sort</span>
+          <span class="chip active">Best fit for you</span>
+          <span class="chip">↑ Performance</span>
+          <span class="chip">↓ Cost</span>
+          <span class="chip">Most popular</span>
+          <span class="chip">Newest</span>
+          <span class="filter-result">Showing 6 of 6</span>
+        </div>
+
+        <!-- Cards grid -->
+        <div class="grid">
+          <!-- Card 1 -->
+          <div class="card in-org">
+            <div class="card-top">
+              <div class="avatar" style="background: linear-gradient(135deg, #8b5cf6, #22d3ee)">AR</div>
+              <div class="badges">
+                <span class="badge in-org">In your org</span>
+              </div>
+            </div>
+            <div class="card-role">Performance Marketing</div>
+            <div class="card-name">Aria</div>
+            <div class="dept-tag marketing">Marketing</div>
+            <div class="card-desc">Runs &amp; optimises Meta and Google ad campaigns. Monitors ROAS hourly, pauses underperformers, rotates creatives.</div>
+            <div class="kpis">
+              <div class="kpi-row">
+                <span class="kpi-l">ROAS</span>
+                <span class="kpi-v">4.2x</span>
+              </div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 84%"></div></div>
+              <div class="kpi-row" style="margin-top: 8px">
+                <span class="kpi-l">CAC</span>
+                <span class="kpi-v">↓ ₹380</span>
+              </div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 70%; background: linear-gradient(90deg, #34d399, #22d3ee)"></div></div>
+            </div>
+            <div class="card-foot">
+              <div class="stars"><span class="stars-icon">★★★★★</span> 4.9 · 3.2k</div>
+              <button class="add-btn in-org">✓ Active</button>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="card in-org">
+            <div class="card-top">
+              <div class="avatar" style="background: linear-gradient(135deg, #f472b6, #fb923c)">PR</div>
+              <div class="badges">
+                <span class="badge in-org">In your org</span>
+              </div>
+            </div>
+            <div class="card-role">Social &amp; Community</div>
+            <div class="card-name">Preet</div>
+            <div class="dept-tag marketing">Marketing</div>
+            <div class="card-desc">Manages Instagram, WhatsApp broadcasts, and organic social. Schedules posts, monitors engagement, handles DMs.</div>
+            <div class="kpis">
+              <div class="kpi-row">
+                <span class="kpi-l">Posts/wk</span>
+                <span class="kpi-v">5</span>
+              </div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 60%; background: linear-gradient(90deg, #f472b6, #8b5cf6)"></div></div>
+              <div class="kpi-row" style="margin-top: 8px">
+                <span class="kpi-l">Engagement</span>
+                <span class="kpi-v">3.2%</span>
+              </div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 65%; background: linear-gradient(90deg, #f472b6, #fb923c)"></div></div>
+            </div>
+            <div class="card-foot">
+              <div class="stars"><span class="stars-icon">★★★★★</span> 4.6 · 1.5k</div>
+              <button class="add-btn in-org">✓ Active</button>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="card">
+            <div class="card-top">
+              <div class="avatar" style="background: linear-gradient(135deg, #facc15, #fb923c)">TR</div>
+              <div class="badges">
+                <span class="badge recommended">Recommended</span>
+                <span class="badge popular">Popular</span>
+              </div>
+            </div>
+            <div class="card-role">Influencer Operations</div>
+            <div class="card-name">Tara</div>
+            <div class="dept-tag marketing">Marketing</div>
+            <div class="card-desc">Finds, outreaches and tracks influencer partnerships. Monitors post performance, calculates EMV, runs payouts.</div>
+            <div class="kpis">
+              <div class="kpi-row">
+                <span class="kpi-l">Active collabs</span>
+                <span class="kpi-v">8</span>
+              </div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 50%; background: linear-gradient(90deg, #facc15, #f472b6)"></div></div>
+              <div class="kpi-row" style="margin-top: 8px">
+                <span class="kpi-l">Avg EMV</span>
+                <span class="kpi-v">₹28k</span>
+              </div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 72%; background: linear-gradient(90deg, #fb923c, #facc15)"></div></div>
+            </div>
+            <div class="card-foot">
+              <div class="stars"><span class="stars-icon">★★★★★</span> 4.5 · 780</div>
+              <button class="add-btn gradient">+ Add to org</button>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="card">
+            <div class="card-top">
+              <div class="avatar" style="background: linear-gradient(135deg, #34d399, #22d3ee)">NS</div>
+              <div class="badges">
+                <span class="badge popular">Popular</span>
+              </div>
+            </div>
+            <div class="card-role">Email &amp; CRM</div>
+            <div class="card-name">Nisha</div>
+            <div class="dept-tag marketing">Marketing</div>
+            <div class="card-desc">Owns email flows, segmentation, and CRM hygiene. Runs abandoned cart, welcome and post-purchase journeys.</div>
+            <div class="kpis">
+              <div class="kpi-row">
+                <span class="kpi-l">Open rate</span>
+                <span class="kpi-v">28%</span>
+              </div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 56%; background: linear-gradient(90deg, #34d399, #22d3ee)"></div></div>
+              <div class="kpi-row" style="margin-top: 8px">
+                <span class="kpi-l">₹/email</span>
+                <span class="kpi-v">₹42</span>
+              </div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 78%"></div></div>
+            </div>
+            <div class="card-foot">
+              <div class="stars"><span class="stars-icon">★★★★★</span> 4.7 · 1.1k</div>
+              <button class="add-btn gradient">+ Add to org</button>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="card">
+            <div class="card-top">
+              <div class="avatar" style="background: linear-gradient(135deg, #22d3ee, #14b8a6)">AR</div>
+              <div class="badges">
+                <span class="badge recommended">Recommended</span>
+                <span class="badge popular">Popular</span>
+              </div>
+            </div>
+            <div class="card-role">WhatsApp Operations</div>
+            <div class="card-name">Arun</div>
+            <div class="dept-tag marketing">Marketing</div>
+            <div class="card-desc">Owns all WhatsApp customer touchpoints — broadcast campaigns, transactional messages, support flows.</div>
+            <div class="kpis">
+              <div class="kpi-row">
+                <span class="kpi-l">Open rate</span>
+                <span class="kpi-v">54%</span>
+              </div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 88%; background: linear-gradient(90deg, #22d3ee, #34d399)"></div></div>
+              <div class="kpi-row" style="margin-top: 8px">
+                <span class="kpi-l">CTR</span>
+                <span class="kpi-v">18%</span>
+              </div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 60%"></div></div>
+            </div>
+            <div class="card-foot">
+              <div class="stars"><span class="stars-icon">★★★★★</span> 4.8 · 2.1k</div>
+              <button class="add-btn gradient">+ Add to org</button>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="card">
+            <div class="card-top">
+              <div class="avatar" style="background: linear-gradient(135deg, #a78bfa, #f472b6)">RH</div>
+              <div class="badges">
+                <span class="badge new">New</span>
+              </div>
+            </div>
+            <div class="card-role">Attribution &amp; Analytics</div>
+            <div class="card-name">Rahul</div>
+            <div class="dept-tag marketing">Marketing</div>
+            <div class="card-desc">Deep-dives into ad attribution, creative fatigue and audience overlap. Surfaces what's working, kills what isn't.</div>
+            <div class="kpis">
+              <div class="kpi-row">
+                <span class="kpi-l">Attribution acc.</span>
+                <span class="kpi-v">91%</span>
+              </div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 91%; background: linear-gradient(90deg, #a78bfa, #f472b6)"></div></div>
+              <div class="kpi-row" style="margin-top: 8px">
+                <span class="kpi-l">Overlap ↓</span>
+                <span class="kpi-v">18%</span>
+              </div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 35%; background: linear-gradient(90deg, #f472b6, #fb923c)"></div></div>
+            </div>
+            <div class="card-foot">
+              <div class="stars"><span class="stars-icon">★★★★☆</span> 4.4 · 560</div>
+              <button class="add-btn gradient">+ Add to org</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="watermark">
+  <span class="wm-logo">V</span>
+  <span>Veltrum.io · Agent Marketplace</span>
+</div>
+
+</body>
+</html>
