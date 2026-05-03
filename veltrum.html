@@ -4,31 +4,46 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Veltrum.io — The n8n for Commerce</title>
+<link rel="icon" type="image/png" href="dark_1024h.png" />
+<link rel="apple-touch-icon" href="dark_1024h.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #07060d;
-    --bg-2: #0d0b18;
-    --surface: #14111f;
-    --surface-2: #1a1729;
+    --bg: #000000;
+    --bg-2: #050505;
+    --surface: #0c0c0c;
+    --surface-2: #141414;
     --border: rgba(255,255,255,0.08);
-    --border-strong: rgba(255,255,255,0.18);
-    --text: #f5f3ff;
-    --text-dim: #a8a3c4;
-    --text-muted: #6e6889;
-    --primary: #8b5cf6;
-    --primary-2: #a78bfa;
-    --accent: #22d3ee;
-    --accent-2: #14b8a6;
-    --orange: #fb923c;
-    --pink: #f472b6;
-    --green: #34d399;
-    --red: #f87171;
-    --gradient: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+    --border-strong: rgba(255,255,255,0.22);
+    --text: #ffffff;
+    --text-dim: #a8a8a8;
+    --text-muted: #6a6a6a;
+    --primary: #ffffff;
+    --primary-2: #d4d4d4;
+    --accent: #ffffff;
+    --accent-2: #c0c0c0;
+    /* accent color palette — used in agents, badges, gradient text */
+    --c-purple: #8b5cf6;
+    --c-violet: #a78bfa;
+    --c-cyan:   #22d3ee;
+    --c-teal:   #14b8a6;
+    --c-pink:   #f472b6;
+    --c-orange: #fb923c;
+    --c-amber:  #facc15;
+    --c-green:  #34d399;
+    --c-red:    #f87171;
+    /* legacy aliases kept for components that still reference them */
+    --orange: var(--c-orange);
+    --pink:   var(--c-pink);
+    --green:  var(--c-green);
+    --red:    var(--c-red);
+    /* primary CTAs stay clean white-on-black; gradient-text and accents get colour */
+    --gradient: linear-gradient(135deg, #ffffff 0%, #d4d4d4 100%);
     --gradient-2: linear-gradient(135deg, #f472b6 0%, #8b5cf6 50%, #22d3ee 100%);
     --gradient-warm: linear-gradient(135deg, #fb923c 0%, #f472b6 100%);
+    --gradient-cool: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -64,15 +79,15 @@
   .blob {
     position: fixed;
     border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.3;
+    filter: blur(140px);
+    opacity: 0.18;
     pointer-events: none;
     z-index: 0;
     animation: float 20s ease-in-out infinite;
   }
   .blob-1 { width: 600px; height: 600px; background: #8b5cf6; top: -200px; left: -200px; }
-  .blob-2 { width: 500px; height: 500px; background: #22d3ee; top: 30%; right: -200px; animation-delay: -7s; }
-  .blob-3 { width: 700px; height: 700px; background: #f472b6; bottom: -300px; left: 30%; animation-delay: -14s; opacity: 0.18; }
+  .blob-2 { width: 500px; height: 500px; background: #22d3ee; top: 30%; right: -200px; animation-delay: -7s; opacity: 0.16; }
+  .blob-3 { width: 700px; height: 700px; background: #f472b6; bottom: -300px; left: 30%; animation-delay: -14s; opacity: 0.10; }
 
   @keyframes float {
     0%, 100% { transform: translate(0, 0) scale(1); }
@@ -88,7 +103,7 @@
     padding: 18px 5%;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    background: rgba(7, 6, 13, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
@@ -103,33 +118,33 @@
     font-weight: 700;
     font-size: 18px;
     letter-spacing: -0.02em;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .logo-img {
+    height: 140px;
+    width: auto;
+    display: block;
+    filter: invert(1);
+    mix-blend-mode: screen;
+    margin: -52px -28px;
   }
 
   .logo-mark {
     width: 36px;
     height: 36px;
     border-radius: 9px;
-    background: var(--gradient);
+    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 800;
     font-size: 18px;
-    color: #fff;
-    box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+    color: #000;
+    box-shadow: 0 0 24px rgba(255, 255, 255, 0.18);
     position: relative;
     overflow: hidden;
-  }
-  .logo-mark::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
-    animation: shine 3s ease-in-out infinite;
-  }
-  @keyframes shine {
-    0%, 100% { transform: translateX(-100%); }
-    50% { transform: translateX(100%); }
   }
 
   .nav-links {
@@ -158,16 +173,59 @@
 
   .nav-cta {
     padding: 10px 18px;
-    background: var(--gradient);
-    color: #fff;
+    background: #ffffff;
+    color: #000;
     border-radius: 8px;
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
     transition: all 0.2s ease;
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.12);
   }
-  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 30px rgba(139, 92, 246, 0.5); }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 30px rgba(255, 255, 255, 0.25); background: #f0f0f0; }
+
+  /* Solutions dropdown */
+  .nav-links { align-items: center; }
+  .nav-links > li { position: relative; }
+  .has-dropdown { position: relative; }
+  .dropdown-trigger { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; color: var(--text-dim); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .dropdown-trigger:hover { color: var(--text); }
+  .dropdown-trigger .chev { font-size: 9px; opacity: 0.7; transition: transform 0.2s; }
+  .has-dropdown:hover .dropdown-trigger .chev,
+  .has-dropdown:focus-within .dropdown-trigger .chev { transform: rotate(180deg); opacity: 1; }
+  .has-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 16px; }
+  .dropdown-menu {
+    position: absolute; top: calc(100% + 14px); left: -16px;
+    min-width: 340px;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--border-strong);
+    border-radius: 14px; padding: 8px;
+    opacity: 0; visibility: hidden; transform: translateY(-8px);
+    transition: opacity 0.22s, transform 0.22s, visibility 0.22s;
+    z-index: 200;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+  }
+  .has-dropdown:hover .dropdown-menu,
+  .has-dropdown:focus-within .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .dropdown-item {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 12px 14px; border-radius: 10px;
+    transition: background 0.18s; text-decoration: none; color: var(--text);
+  }
+  .dropdown-item:hover { background: rgba(255, 255, 255, 0.06); }
+  .dropdown-item-icon {
+    flex-shrink: 0; width: 36px; height: 36px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+  }
+  .dropdown-item.commerce .dropdown-item-icon { background: linear-gradient(135deg, #f472b6, #fb923c); box-shadow: 0 6px 18px rgba(244,114,182,0.25); }
+  .dropdown-item.tms      .dropdown-item-icon { background: linear-gradient(135deg, #8b5cf6, #22d3ee); box-shadow: 0 6px 18px rgba(139,92,246,0.25); }
+  .dropdown-item.calling  .dropdown-item-icon { background: linear-gradient(135deg, #22d3ee, #14b8a6); box-shadow: 0 6px 18px rgba(34,211,238,0.25); }
+  .dropdown-item-text { display: flex; flex-direction: column; gap: 2px; }
+  .dropdown-item-h { font-weight: 600; font-size: 14px; color: var(--text); line-height: 1.2; }
+  .dropdown-item-d { color: var(--text-muted); font-size: 12px; line-height: 1.3; }
 
   /* Section base */
   section {
@@ -205,7 +263,7 @@
     color: var(--text-dim);
     margin-bottom: 28px;
     backdrop-filter: blur(10px);
-    background: rgba(139, 92, 246, 0.08);
+    background: rgba(255, 255, 255, 0.08);
     opacity: 0;
     animation: fadeUp 0.8s ease 0.1s forwards;
   }
@@ -276,12 +334,12 @@
   }
   .btn-primary {
     background: var(--gradient);
-    color: #fff;
-    box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+    color: #000;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
   }
   .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 40px rgba(139, 92, 246, 0.6);
+    box-shadow: 0 8px 40px rgba(255, 255, 255, 0.6);
   }
   .btn-secondary {
     background: rgba(255,255,255,0.05);
@@ -345,9 +403,9 @@
     letter-spacing: 0.15em;
     margin-bottom: 16px;
     padding: 4px 12px;
-    border: 1px solid rgba(34, 211, 238, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 100px;
-    background: rgba(34, 211, 238, 0.05);
+    background: rgba(255, 255, 255, 0.05);
   }
 
   .section-title {
@@ -379,7 +437,7 @@
 
   /* Problem section - timeline */
   .problem-section {
-    background: linear-gradient(180deg, transparent 0%, rgba(244, 114, 182, 0.04) 50%, transparent 100%);
+    background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.04) 50%, transparent 100%);
   }
 
   .timeline {
@@ -407,7 +465,7 @@
   .time-item:hover {
     transform: translateX(8px);
     border-color: var(--primary);
-    box-shadow: -8px 0 30px rgba(139, 92, 246, 0.15);
+    box-shadow: -8px 0 30px rgba(255, 255, 255, 0.15);
   }
   .time-item::before {
     content: '';
@@ -417,7 +475,7 @@
     background: var(--bg);
     border: 3px solid var(--primary);
     border-radius: 50%;
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
   }
   .time-stamp {
     font-family: 'JetBrains Mono', monospace;
@@ -435,7 +493,7 @@
     margin-top: 60px;
     padding: 32px;
     border-left: 4px solid var(--accent);
-    background: rgba(34, 211, 238, 0.05);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 0 14px 14px 0;
     font-size: clamp(18px, 1.8vw, 22px);
     font-weight: 500;
@@ -470,7 +528,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.15), transparent 60%);
+    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.15), transparent 60%);
     opacity: 0;
     transition: opacity 0.4s ease;
   }
@@ -491,9 +549,9 @@
     position: relative;
     z-index: 1;
   }
-  .card-icon.purple { background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.05)); border: 1px solid rgba(139, 92, 246, 0.3); }
-  .card-icon.cyan { background: linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(34, 211, 238, 0.05)); border: 1px solid rgba(34, 211, 238, 0.3); }
-  .card-icon.pink { background: linear-gradient(135deg, rgba(244, 114, 182, 0.2), rgba(244, 114, 182, 0.05)); border: 1px solid rgba(244, 114, 182, 0.3); }
+  .card-icon.purple { background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(139, 92, 246, 0.05)); border: 1px solid rgba(139, 92, 246, 0.35); color: var(--c-violet); }
+  .card-icon.cyan   { background: linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(34, 211, 238, 0.05)); border: 1px solid rgba(34, 211, 238, 0.35); color: var(--c-cyan); }
+  .card-icon.pink   { background: linear-gradient(135deg, rgba(244, 114, 182, 0.25), rgba(244, 114, 182, 0.05)); border: 1px solid rgba(244, 114, 182, 0.35); color: var(--c-pink); }
 
   .card-title {
     font-size: 20px;
@@ -552,7 +610,7 @@
 
   /* Agents section */
   .agents-section {
-    background: linear-gradient(180deg, transparent 0%, rgba(34, 211, 238, 0.03) 50%, transparent 100%);
+    background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%);
   }
   .agents-grid {
     display: grid;
@@ -573,12 +631,12 @@
   .agent-card:hover {
     transform: translateY(-4px) scale(1.02);
     border-color: var(--accent);
-    box-shadow: 0 20px 40px rgba(34, 211, 238, 0.1);
+    box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
   }
   .agent-avatar {
     width: 48px; height: 48px;
     border-radius: 12px;
-    background: var(--gradient);
+    background: linear-gradient(135deg, var(--c-purple), var(--c-violet));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -586,14 +644,15 @@
     color: #fff;
     margin-bottom: 14px;
     font-size: 16px;
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.25);
   }
-  .agent-card:nth-child(2) .agent-avatar { background: linear-gradient(135deg, #22d3ee, #14b8a6); }
-  .agent-card:nth-child(3) .agent-avatar { background: linear-gradient(135deg, #f472b6, #fb923c); }
-  .agent-card:nth-child(4) .agent-avatar { background: linear-gradient(135deg, #fb923c, #facc15); }
-  .agent-card:nth-child(5) .agent-avatar { background: linear-gradient(135deg, #34d399, #22d3ee); }
-  .agent-card:nth-child(6) .agent-avatar { background: linear-gradient(135deg, #a78bfa, #f472b6); }
-  .agent-card:nth-child(7) .agent-avatar { background: linear-gradient(135deg, #f87171, #fb923c); }
-  .agent-card:nth-child(8) .agent-avatar { background: linear-gradient(135deg, #14b8a6, #34d399); }
+  .agent-card:nth-child(2) .agent-avatar { background: linear-gradient(135deg, var(--c-cyan), var(--c-teal)); box-shadow: 0 8px 24px rgba(34, 211, 238, 0.25); }
+  .agent-card:nth-child(3) .agent-avatar { background: linear-gradient(135deg, var(--c-pink), var(--c-orange)); box-shadow: 0 8px 24px rgba(244, 114, 182, 0.25); }
+  .agent-card:nth-child(4) .agent-avatar { background: linear-gradient(135deg, var(--c-orange), var(--c-amber)); box-shadow: 0 8px 24px rgba(251, 146, 60, 0.25); }
+  .agent-card:nth-child(5) .agent-avatar { background: linear-gradient(135deg, var(--c-green), var(--c-cyan)); box-shadow: 0 8px 24px rgba(52, 211, 153, 0.25); }
+  .agent-card:nth-child(6) .agent-avatar { background: linear-gradient(135deg, var(--c-violet), var(--c-pink)); box-shadow: 0 8px 24px rgba(167, 139, 250, 0.25); }
+  .agent-card:nth-child(7) .agent-avatar { background: linear-gradient(135deg, var(--c-red), var(--c-orange)); box-shadow: 0 8px 24px rgba(248, 113, 113, 0.25); }
+  .agent-card:nth-child(8) .agent-avatar { background: linear-gradient(135deg, var(--c-teal), var(--c-green)); box-shadow: 0 8px 24px rgba(20, 184, 166, 0.25); }
 
   .agent-name { font-weight: 700; font-size: 16px; }
   .agent-role { color: var(--text-muted); font-size: 13px; margin-top: 2px; margin-bottom: 16px; }
@@ -709,7 +768,7 @@
 
   /* Pricing */
   .pricing-section {
-    background: linear-gradient(180deg, transparent 0%, rgba(139, 92, 246, 0.04) 100%);
+    background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.04) 100%);
   }
   .pricing-grid {
     display: grid;
@@ -727,9 +786,9 @@
   }
   .price-card.featured {
     border-color: var(--primary);
-    background: linear-gradient(180deg, rgba(139, 92, 246, 0.1) 0%, var(--surface) 60%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, var(--surface) 60%);
     transform: scale(1.04);
-    box-shadow: 0 20px 60px rgba(139, 92, 246, 0.2);
+    box-shadow: 0 20px 60px rgba(255, 255, 255, 0.2);
   }
   .price-card:hover { transform: translateY(-4px); }
   .price-card.featured:hover { transform: scale(1.04) translateY(-4px); }
@@ -852,7 +911,7 @@
 
   /* Competitive landscape - quadrant */
   .quadrant-section {
-    background: linear-gradient(180deg, transparent 0%, rgba(244, 114, 182, 0.03) 100%);
+    background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.03) 100%);
   }
   .quadrant-wrap {
     margin-top: 60px;
@@ -865,7 +924,7 @@
   .quadrant {
     position: relative;
     aspect-ratio: 1.6 / 1;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.04), rgba(34, 211, 238, 0.04));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04));
     border-radius: 16px;
     margin: 30px 40px;
   }
@@ -932,9 +991,9 @@
     animation: pulseRing 2s infinite;
   }
   @keyframes pulseRing {
-    0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.6); }
-    70% { box-shadow: 0 0 0 20px rgba(139, 92, 246, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6); }
+    70% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
   }
   .point-label {
     position: absolute;
@@ -950,7 +1009,7 @@
     white-space: nowrap;
   }
   .point.us .point-label {
-    background: var(--gradient);
+    background: var(--gradient-cool);
     border: none;
     color: #fff;
   }
@@ -1058,7 +1117,7 @@
   .reveal.in .fund-bar { transform: scaleX(var(--scale, 1)); }
 
   /* Team */
-  .team-section { background: linear-gradient(180deg, transparent 0%, rgba(34, 211, 238, 0.03) 100%); }
+  .team-section { background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.03) 100%); }
   .team-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1081,7 +1140,7 @@
     width: 96px; height: 96px;
     margin: 0 auto 20px;
     border-radius: 50%;
-    background: var(--gradient);
+    background: linear-gradient(135deg, var(--c-purple), var(--c-violet));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1089,10 +1148,10 @@
     font-weight: 700;
     color: #fff;
     border: 3px solid var(--surface);
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--c-purple);
   }
-  .team-card:nth-child(2) .team-photo { background: linear-gradient(135deg, #22d3ee, #14b8a6); outline-color: var(--accent); }
-  .team-card:nth-child(3) .team-photo { background: linear-gradient(135deg, #f472b6, #fb923c); outline-color: var(--pink); }
+  .team-card:nth-child(2) .team-photo { background: linear-gradient(135deg, var(--c-cyan), var(--c-teal)); outline-color: var(--c-cyan); }
+  .team-card:nth-child(3) .team-photo { background: linear-gradient(135deg, var(--c-pink), var(--c-orange)); outline-color: var(--c-pink); }
 
   .team-name { font-size: 20px; font-weight: 700; }
   .team-role { color: var(--accent); font-size: 13px; margin: 6px 0 14px; font-family: 'JetBrains Mono', monospace; }
@@ -1107,7 +1166,7 @@
     max-width: 900px;
     margin: 0 auto;
     padding: 80px 60px;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(34, 211, 238, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
     border: 1px solid var(--border-strong);
     border-radius: 28px;
     position: relative;
@@ -1117,7 +1176,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.3), transparent 50%);
+    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.3), transparent 50%);
     pointer-events: none;
   }
   .cta-quote {
@@ -1194,7 +1253,7 @@
     position: absolute;
     font-size: 600px;
     font-weight: 800;
-    color: rgba(139, 92, 246, 0.04);
+    color: rgba(255, 255, 255, 0.03);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -1224,7 +1283,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at top right, rgba(34, 211, 238, 0.1), transparent 60%);
+    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.1), transparent 60%);
     opacity: 0;
     transition: opacity 0.4s ease;
   }
@@ -1248,7 +1307,7 @@
 
   /* Integrations */
   .integrations-section {
-    background: linear-gradient(180deg, transparent 0%, rgba(139, 92, 246, 0.04) 50%, transparent 100%);
+    background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.04) 50%, transparent 100%);
   }
   .int-grid {
     display: grid;
@@ -1298,8 +1357,8 @@
   .int-foot {
     margin-top: 40px;
     padding: 24px 28px;
-    background: rgba(139, 92, 246, 0.06);
-    border: 1px solid rgba(139, 92, 246, 0.2);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 14px;
     color: var(--text-dim);
     font-size: 15px;
@@ -1307,7 +1366,7 @@
   .int-foot strong { color: var(--text); }
 
   /* Security */
-  .security-section { background: linear-gradient(180deg, transparent 0%, rgba(34, 211, 238, 0.03) 100%); }
+  .security-section { background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.03) 100%); }
   .sec-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1324,13 +1383,13 @@
   .sec-card:hover {
     transform: translateY(-4px);
     border-color: var(--accent);
-    box-shadow: 0 20px 40px rgba(34, 211, 238, 0.08);
+    box-shadow: 0 20px 40px rgba(255, 255, 255, 0.08);
   }
   .sec-icon {
     width: 48px; height: 48px;
     border-radius: 12px;
-    background: linear-gradient(135deg, rgba(34, 211, 238, 0.18), rgba(139, 92, 246, 0.1));
-    border: 1px solid rgba(34, 211, 238, 0.25);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1347,7 +1406,7 @@
     max-width: 980px;
     margin: 0 auto;
     padding: 60px;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(34, 211, 238, 0.06) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.06) 100%);
     border: 1px solid var(--border-strong);
     border-radius: 24px;
     position: relative;
@@ -1360,7 +1419,7 @@
     font-size: 240px;
     font-family: 'Inter', serif;
     font-weight: 800;
-    color: rgba(139, 92, 246, 0.12);
+    color: rgba(255, 255, 255, 0.12);
     line-height: 1;
     pointer-events: none;
   }
@@ -1381,7 +1440,7 @@
   .testimonial-photo {
     width: 52px; height: 52px;
     border-radius: 50%;
-    background: var(--gradient);
+    background: var(--gradient-cool);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1431,8 +1490,8 @@
 
   /* ---------- FOMO / SCARCITY ---------- */
   .hero-badge.invite {
-    background: rgba(244, 114, 182, 0.1);
-    border-color: rgba(244, 114, 182, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
     color: var(--pink);
     font-weight: 600;
   }
@@ -1549,7 +1608,7 @@
   /* Waitlist form */
   .waitlist-section {
     padding: 100px 5%;
-    background: linear-gradient(180deg, transparent 0%, rgba(244, 114, 182, 0.04) 50%, transparent 100%);
+    background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.04) 50%, transparent 100%);
   }
   .waitlist-wrap {
     display: grid;
@@ -1576,8 +1635,8 @@
   .perk-check {
     width: 24px; height: 24px;
     border-radius: 7px;
-    background: linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(139, 92, 246, 0.15));
-    border: 1px solid rgba(34, 211, 238, 0.4);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.15));
+    border: 1px solid rgba(255, 255, 255, 0.4);
     color: var(--accent);
     display: flex;
     align-items: center;
@@ -1613,7 +1672,7 @@
     background: var(--surface);
     border: 1px solid var(--border-strong);
     border-radius: 24px;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 0 80px rgba(139,92,246,0.08);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 0 80px rgba(255,255,255,0.08);
     position: relative;
   }
   .waitlist-form::before {
@@ -1621,7 +1680,7 @@
     position: absolute;
     inset: -1px;
     border-radius: 24px;
-    background: linear-gradient(135deg, rgba(139,92,246,0.4), rgba(34,211,238,0.3), rgba(244,114,182,0.4));
+    background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.3), rgba(255,255,255,0.4));
     z-index: -1;
     opacity: 0.5;
     filter: blur(20px);
@@ -1667,7 +1726,7 @@
   .field input:focus, .field select:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15);
     background: var(--surface);
   }
   .field input::placeholder { color: var(--text-muted); }
@@ -1684,7 +1743,7 @@
     width: 100%;
     padding: 16px 24px;
     background: var(--gradient);
-    color: #fff;
+    color: #000;
     border: none;
     border-radius: 12px;
     font-size: 15px;
@@ -1692,7 +1751,7 @@
     cursor: pointer;
     margin-top: 12px;
     transition: all 0.25s ease;
-    box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1702,7 +1761,7 @@
   }
   .form-submit:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 40px rgba(139, 92, 246, 0.6);
+    box-shadow: 0 8px 40px rgba(255, 255, 255, 0.6);
   }
   .form-submit .arrow {
     transition: transform 0.25s ease;
@@ -1713,8 +1772,8 @@
   .form-foot {
     margin-top: 18px;
     padding: 14px;
-    background: rgba(34, 211, 238, 0.06);
-    border: 1px solid rgba(34, 211, 238, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 10px;
     font-size: 13px;
     color: var(--text-dim);
@@ -1735,7 +1794,7 @@
   .success-icon {
     width: 72px; height: 72px;
     border-radius: 50%;
-    background: var(--gradient);
+    background: var(--gradient-cool);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1743,7 +1802,7 @@
     font-size: 32px;
     font-weight: 700;
     color: #fff;
-    box-shadow: 0 0 60px rgba(139, 92, 246, 0.5);
+    box-shadow: 0 0 60px rgba(139, 92, 246, 0.45);
   }
   .success-h { font-size: 26px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em; }
   .success-d { color: var(--text-dim); font-size: 15px; }
@@ -1760,7 +1819,7 @@
     border: 1px solid var(--border-strong);
     border-radius: 22px;
     overflow: hidden;
-    box-shadow: 0 50px 120px rgba(0,0,0,0.55), 0 0 100px rgba(139,92,246,0.12);
+    box-shadow: 0 50px 120px rgba(0,0,0,0.55), 0 0 100px rgba(255,255,255,0.12);
     position: relative;
   }
   .mkt-frame::before {
@@ -1768,7 +1827,7 @@
     position: absolute;
     inset: -1px;
     border-radius: 22px;
-    background: linear-gradient(135deg, rgba(139,92,246,0.4), rgba(34,211,238,0.2), rgba(244,114,182,0.3));
+    background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.2), rgba(255,255,255,0.3));
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
@@ -1803,7 +1862,7 @@
     align-items: center;
     gap: 8px;
   }
-  .mkt-url-lock { color: #34d399; }
+  .mkt-url-lock { color: #cccccc; }
   .mkt-body {
     padding: 28px 32px 32px;
     background: var(--surface);
@@ -1842,25 +1901,25 @@
   .mkt-cart-bubble {
     width: 24px; height: 24px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #f472b6, #fb923c);
+    background: linear-gradient(135deg, #22d3ee, #14b8a6);
     color: #fff;
     font-weight: 700;
     font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 14px rgba(244,114,182,0.5);
+    box-shadow: 0 0 14px rgba(34, 211, 238, 0.5);
   }
   .mkt-deploy {
     padding: 11px 22px;
     background: var(--gradient);
-    color: #fff;
+    color: #000;
     border: none;
     border-radius: 9px;
     font-weight: 700;
     font-size: 13px;
     cursor: pointer;
-    box-shadow: 0 0 22px rgba(139,92,246,0.4);
+    box-shadow: 0 0 22px rgba(255,255,255,0.4);
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -1926,7 +1985,7 @@
     color: var(--text-muted);
   }
   .mkt-nav-item.active {
-    background: rgba(139, 92, 246, 0.12);
+    background: rgba(255, 255, 255, 0.12);
     color: var(--text);
     border-left: 2px solid var(--primary);
     padding-left: 10px;
@@ -1969,7 +2028,7 @@
   }
   .mkt-chip:hover { border-color: var(--border-strong); color: var(--text); }
   .mkt-chip.active {
-    background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(34,211,238,0.1));
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.1));
     border-color: var(--primary);
     color: var(--text);
   }
@@ -2003,14 +2062,14 @@
     box-shadow: 0 20px 40px rgba(0,0,0,0.3);
   }
   .mkt-card.in-org {
-    border-color: rgba(34, 211, 238, 0.4);
-    background: linear-gradient(180deg, rgba(34, 211, 238, 0.08) 0%, var(--surface-2) 60%);
+    border-color: rgba(255, 255, 255, 0.4);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, var(--surface-2) 60%);
   }
   .mkt-card.in-org::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at top right, rgba(34, 211, 238, 0.15), transparent 60%);
+    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.15), transparent 60%);
     pointer-events: none;
   }
   .mkt-card-top {
@@ -2037,10 +2096,10 @@
     position: absolute;
     bottom: -2px; right: -2px;
     width: 11px; height: 11px;
-    background: #34d399;
+    background: #cccccc;
     border: 2px solid var(--surface-2);
     border-radius: 50%;
-    box-shadow: 0 0 8px #34d399;
+    box-shadow: 0 0 8px #cccccc;
   }
   .mkt-badges {
     display: flex;
@@ -2058,24 +2117,24 @@
     font-family: 'JetBrains Mono', monospace;
   }
   .mkt-badge.in-org {
-    background: rgba(34, 211, 238, 0.15);
+    background: rgba(255, 255, 255, 0.15);
     color: var(--accent);
-    border: 1px solid rgba(34, 211, 238, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   .mkt-badge.popular {
-    background: rgba(139, 92, 246, 0.15);
+    background: rgba(255, 255, 255, 0.15);
     color: #b59cff;
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   .mkt-badge.new {
-    background: rgba(52, 211, 153, 0.15);
+    background: rgba(255, 255, 255, 0.15);
     color: var(--green);
-    border: 1px solid rgba(52, 211, 153, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   .mkt-badge.recommended {
-    background: rgba(251, 146, 60, 0.15);
+    background: rgba(255, 255, 255, 0.15);
     color: var(--orange);
-    border: 1px solid rgba(251, 146, 60, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   .mkt-role {
     color: var(--text-muted);
@@ -2099,7 +2158,7 @@
     font-weight: 500;
     margin-bottom: 10px;
   }
-  .mkt-dept.marketing { background: rgba(244, 114, 182, 0.12); color: var(--pink); }
+  .mkt-dept.marketing { background: rgba(255, 255, 255, 0.12); color: var(--pink); }
   .mkt-desc {
     color: var(--text-dim);
     font-size: 12px;
@@ -2151,7 +2210,7 @@
     font-size: 11px;
   }
   .mkt-stars-icon {
-    color: #facc15;
+    color: #c0c0c0;
     letter-spacing: -1px;
     font-size: 10px;
   }
@@ -2170,20 +2229,21 @@
     font-family: inherit;
   }
   .mkt-add.in-org {
-    background: rgba(34, 211, 238, 0.18);
-    border-color: rgba(34, 211, 238, 0.4);
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.4);
     color: var(--accent);
   }
   .mkt-add.gradient {
     background: var(--gradient);
-    color: #fff;
+    color: #000;
     border: none;
-    box-shadow: 0 0 12px rgba(139,92,246,0.4);
+    box-shadow: 0 0 12px rgba(255,255,255,0.4);
   }
 
   /* Responsive */
   @media (max-width: 980px) {
     .nav-links { display: none; }
+    .logo-img { height: 100px; margin: -36px -20px; }
     .hero-stats { grid-template-columns: repeat(2, 1fr); }
     .solution-grid, .agents-grid, .pricing-grid, .funds-grid, .team-grid, .market-grid, .outcomes-grid, .int-grid, .sec-grid { grid-template-columns: 1fr; }
     .logo-grid { grid-template-columns: repeat(2, 1fr); }
@@ -2232,19 +2292,49 @@
 <div class="blob blob-3"></div>
 
 <nav>
-  <div class="logo">
-    <div class="logo-mark">V</div>
-    <span>Veltrum<span style="color: var(--text-muted)">.io</span></span>
-  </div>
+  <a href="#hero" class="logo" aria-label="Veltrum.io home">
+    <img src="light_1024h.png" alt="Veltrum.io" class="logo-img" />
+  </a>
   <ul class="nav-links">
+    <li class="has-dropdown">
+      <a class="dropdown-trigger" tabindex="0">Solutions <span class="chev">▾</span></a>
+      <div class="dropdown-menu">
+        <a href="agentic-commerce.html" class="dropdown-item commerce">
+          <span class="dropdown-item-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </span>
+          <span class="dropdown-item-text">
+            <span class="dropdown-item-h">Agentic Commerce</span>
+            <span class="dropdown-item-d">Storefront, payments, marketing, CX — orchestrated</span>
+          </span>
+        </a>
+        <a href="agentic-tms.html" class="dropdown-item tms">
+          <span class="dropdown-item-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16V6a1 1 0 0 1 1-1h11v11"/><path d="M14 9h4l3 4v3h-2"/><path d="M14 16h-3"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+          </span>
+          <span class="dropdown-item-text">
+            <span class="dropdown-item-h">Agentic TMS</span>
+            <span class="dropdown-item-d">Hubs, fleet, drivers and routing — agent-native</span>
+          </span>
+        </a>
+        <a href="agentic-calling.html" class="dropdown-item calling">
+          <span class="dropdown-item-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <span class="dropdown-item-text">
+            <span class="dropdown-item-h">Agentic Calling</span>
+            <span class="dropdown-item-d">Voice agents for D2C — sample calls + pilot</span>
+          </span>
+        </a>
+      </div>
+    </li>
     <li><a href="#problem">Why Veltrum</a></li>
     <li><a href="#solution">Platform</a></li>
-    <li><a href="#agents">Agents</a></li>
     <li><a href="#marketplace">Marketplace</a></li>
     <li><a href="#integrations">Integrations</a></li>
     <li><a href="#security">Security</a></li>
   </ul>
-  <a href="#waitlist" class="nav-cta">Apply for access →</a>
+  <a href="agentic-commerce.html#apply" class="nav-cta">Apply for access →</a>
 </nav>
 
 <!-- HERO -->
@@ -2268,7 +2358,7 @@
       Veltrum unifies your storefront, payments, logistics, marketing and customer experience tools — and deploys AI agents that own KPIs end-to-end. One platform. Every workflow. Always-on execution.
     </p>
     <div class="hero-ctas">
-      <a href="#waitlist" class="btn-primary">Apply for access →</a>
+      <a href="agentic-commerce.html#apply" class="btn-primary">Apply for access →</a>
       <a href="#solution" class="btn-secondary">Explore the platform</a>
     </div>
     <div class="hero-stats">
@@ -2571,7 +2661,7 @@
               <span class="mkt-count">4</span>
             </div>
             <div class="mkt-nav-item">
-              <span class="mkt-dot" style="background: #f87171"></span>
+              <span class="mkt-dot" style="background: #f0f0f0"></span>
               <span>Returns</span>
               <span class="mkt-count">3</span>
             </div>
@@ -2581,7 +2671,7 @@
               <span class="mkt-count">4</span>
             </div>
             <div class="mkt-nav-item">
-              <span class="mkt-dot" style="background: #facc15"></span>
+              <span class="mkt-dot" style="background: #c0c0c0"></span>
               <span>Analytics</span>
               <span class="mkt-count">3</span>
             </div>
@@ -2616,7 +2706,7 @@
               <!-- Aria -->
               <div class="mkt-card in-org">
                 <div class="mkt-card-top">
-                  <div class="mkt-avatar" style="background: linear-gradient(135deg, #8b5cf6, #22d3ee)">AR</div>
+                  <div class="mkt-avatar" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa)">AR</div>
                   <div class="mkt-badges"><span class="mkt-badge in-org">In your org</span></div>
                 </div>
                 <div class="mkt-role">Performance Marketing</div>
@@ -2627,7 +2717,7 @@
                   <div class="mkt-kpi-row"><span class="mkt-kpi-l">ROAS</span><span class="mkt-kpi-v">4.2x</span></div>
                   <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 84%"></div></div>
                   <div class="mkt-kpi-row" style="margin-top:8px"><span class="mkt-kpi-l">CAC</span><span class="mkt-kpi-v">↓ ₹380</span></div>
-                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 70%; background: linear-gradient(90deg, #34d399, #22d3ee)"></div></div>
+                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 70%; background: linear-gradient(90deg, #fb923c, #facc15)"></div></div>
                 </div>
                 <div class="mkt-foot">
                   <div class="mkt-stars"><span class="mkt-stars-icon">★★★★★</span> 4.9 · 3.2k</div>
@@ -2638,7 +2728,7 @@
               <!-- Preet -->
               <div class="mkt-card in-org">
                 <div class="mkt-card-top">
-                  <div class="mkt-avatar" style="background: linear-gradient(135deg, #f472b6, #fb923c)">PR</div>
+                  <div class="mkt-avatar" style="background: linear-gradient(135deg, #22d3ee, #14b8a6)">PR</div>
                   <div class="mkt-badges"><span class="mkt-badge in-org">In your org</span></div>
                 </div>
                 <div class="mkt-role">Social &amp; Community</div>
@@ -2647,7 +2737,7 @@
                 <div class="mkt-desc">Manages Instagram, WhatsApp broadcasts, and organic social. Schedules posts, monitors engagement, handles DMs.</div>
                 <div class="mkt-kpis">
                   <div class="mkt-kpi-row"><span class="mkt-kpi-l">Posts/wk</span><span class="mkt-kpi-v">5</span></div>
-                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 60%; background: linear-gradient(90deg, #f472b6, #8b5cf6)"></div></div>
+                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 60%; background: linear-gradient(90deg, #f472b6, #ededed)"></div></div>
                   <div class="mkt-kpi-row" style="margin-top:8px"><span class="mkt-kpi-l">Engagement</span><span class="mkt-kpi-v">3.2%</span></div>
                   <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 65%; background: linear-gradient(90deg, #f472b6, #fb923c)"></div></div>
                 </div>
@@ -2660,7 +2750,7 @@
               <!-- Tara -->
               <div class="mkt-card">
                 <div class="mkt-card-top">
-                  <div class="mkt-avatar" style="background: linear-gradient(135deg, #facc15, #fb923c)">TR</div>
+                  <div class="mkt-avatar" style="background: linear-gradient(135deg, #f472b6, #fb923c)">TR</div>
                   <div class="mkt-badges">
                     <span class="mkt-badge recommended">Recommended</span>
                     <span class="mkt-badge popular">Popular</span>
@@ -2672,9 +2762,9 @@
                 <div class="mkt-desc">Finds, outreaches and tracks influencer partnerships. Monitors post performance, calculates EMV, runs payouts.</div>
                 <div class="mkt-kpis">
                   <div class="mkt-kpi-row"><span class="mkt-kpi-l">Active collabs</span><span class="mkt-kpi-v">8</span></div>
-                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 50%; background: linear-gradient(90deg, #facc15, #f472b6)"></div></div>
+                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 50%; background: linear-gradient(90deg, #34d399, #22d3ee)"></div></div>
                   <div class="mkt-kpi-row" style="margin-top:8px"><span class="mkt-kpi-l">Avg EMV</span><span class="mkt-kpi-v">₹28k</span></div>
-                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 72%; background: linear-gradient(90deg, #fb923c, #facc15)"></div></div>
+                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 72%; background: linear-gradient(90deg, #a78bfa, #f472b6)"></div></div>
                 </div>
                 <div class="mkt-foot">
                   <div class="mkt-stars"><span class="mkt-stars-icon">★★★★★</span> 4.5 · 780</div>
@@ -2685,7 +2775,7 @@
               <!-- Nisha -->
               <div class="mkt-card">
                 <div class="mkt-card-top">
-                  <div class="mkt-avatar" style="background: linear-gradient(135deg, #34d399, #22d3ee)">NS</div>
+                  <div class="mkt-avatar" style="background: linear-gradient(135deg, #fb923c, #facc15)">NS</div>
                   <div class="mkt-badges"><span class="mkt-badge popular">Popular</span></div>
                 </div>
                 <div class="mkt-role">Email &amp; CRM</div>
@@ -2694,7 +2784,7 @@
                 <div class="mkt-desc">Owns email flows, segmentation, and CRM hygiene. Runs abandoned cart, welcome and post-purchase journeys.</div>
                 <div class="mkt-kpis">
                   <div class="mkt-kpi-row"><span class="mkt-kpi-l">Open rate</span><span class="mkt-kpi-v">28%</span></div>
-                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 56%; background: linear-gradient(90deg, #34d399, #22d3ee)"></div></div>
+                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 56%; background: linear-gradient(90deg, #fb923c, #facc15)"></div></div>
                   <div class="mkt-kpi-row" style="margin-top:8px"><span class="mkt-kpi-l">₹/email</span><span class="mkt-kpi-v">₹42</span></div>
                   <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 78%"></div></div>
                 </div>
@@ -2707,7 +2797,7 @@
               <!-- Arun -->
               <div class="mkt-card">
                 <div class="mkt-card-top">
-                  <div class="mkt-avatar" style="background: linear-gradient(135deg, #22d3ee, #14b8a6)">AR</div>
+                  <div class="mkt-avatar" style="background: linear-gradient(135deg, #34d399, #22d3ee)">AR</div>
                   <div class="mkt-badges">
                     <span class="mkt-badge recommended">Recommended</span>
                     <span class="mkt-badge popular">Popular</span>
@@ -2719,7 +2809,7 @@
                 <div class="mkt-desc">Owns all WhatsApp customer touchpoints — broadcast campaigns, transactional messages, support flows.</div>
                 <div class="mkt-kpis">
                   <div class="mkt-kpi-row"><span class="mkt-kpi-l">Open rate</span><span class="mkt-kpi-v">54%</span></div>
-                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 88%; background: linear-gradient(90deg, #22d3ee, #34d399)"></div></div>
+                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 88%; background: linear-gradient(90deg, #22d3ee, #14b8a6)"></div></div>
                   <div class="mkt-kpi-row" style="margin-top:8px"><span class="mkt-kpi-l">CTR</span><span class="mkt-kpi-v">18%</span></div>
                   <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 60%"></div></div>
                 </div>
@@ -2741,7 +2831,7 @@
                 <div class="mkt-desc">Deep-dives into ad attribution, creative fatigue and audience overlap. Surfaces what's working, kills what isn't.</div>
                 <div class="mkt-kpis">
                   <div class="mkt-kpi-row"><span class="mkt-kpi-l">Attribution acc.</span><span class="mkt-kpi-v">91%</span></div>
-                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 91%; background: linear-gradient(90deg, #a78bfa, #f472b6)"></div></div>
+                  <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 91%; background: linear-gradient(90deg, #8b5cf6, #a78bfa)"></div></div>
                   <div class="mkt-kpi-row" style="margin-top:8px"><span class="mkt-kpi-l">Overlap ↓</span><span class="mkt-kpi-v">18%</span></div>
                   <div class="mkt-kpi-bar"><div class="mkt-kpi-fill" style="width: 35%; background: linear-gradient(90deg, #f472b6, #fb923c)"></div></div>
                 </div>
@@ -3064,18 +3154,18 @@
   </div>
 </section>
 
-<!-- WAITLIST APPLICATION -->
+<!-- APPLY CTA — application now lives on agentic-commerce.html#apply -->
 <section class="waitlist-section" id="waitlist">
   <div class="container">
-    <div class="waitlist-wrap reveal">
+    <div class="waitlist-wrap reveal" style="grid-template-columns: 1fr; gap: 32px; max-width: 880px; margin: 0 auto; text-align: center;">
       <div class="waitlist-left">
-        <div class="section-eyebrow" style="border-color: rgba(244,114,182,0.4); color: var(--pink); background: rgba(244,114,182,0.06);">Round 2 · Closing soon</div>
-        <h2 class="section-title">Apply for closed-beta<br><span class="gradient-text">access.</span></h2>
-        <p class="section-subtitle" style="margin-bottom: 28px;">
-          We hand-pick every brand in the closed beta. If your team is the right fit, you'll hear from a founder within 48 hours.
+        <div class="section-eyebrow" style="border-color: rgba(255,255,255,0.4); color: var(--pink); background: rgba(255,255,255,0.06); display: inline-block;">Round 2 · Closing soon</div>
+        <h2 class="section-title" style="margin-top: 18px;">Apply for closed-beta<br><span class="gradient-text">access.</span></h2>
+        <p class="section-subtitle" style="margin: 0 auto 36px; max-width: 580px;">
+          We hand-pick every brand in the closed beta. If your team is the right fit, you'll hear from a founder within 48 hours of applying.
         </p>
 
-        <div class="scarcity-bar">
+        <div class="scarcity-bar" style="max-width: 640px; margin: 0 auto 36px;">
           <div class="scarcity-item">
             <div class="scarcity-num" data-count="47">47</div>
             <div class="scarcity-label">Spots left</div>
@@ -3094,101 +3184,10 @@
           </div>
         </div>
 
-        <ul class="waitlist-perks">
-          <li><span class="perk-check">✓</span><div><strong>Founding-100 pricing</strong> — locked for life. No price hikes when we GA.</div></li>
-          <li><span class="perk-check">✓</span><div><strong>Direct line to the founders</strong> — private Slack with the engineering team.</div></li>
-          <li><span class="perk-check">✓</span><div><strong>Custom agent built for you</strong> — one bespoke agent for your highest-leverage use case.</div></li>
-          <li><span class="perk-check">✓</span><div><strong>White-glove migration</strong> — our team plugs in your stack in under 14 days.</div></li>
-          <li><span class="perk-check">✓</span><div><strong>Roadmap influence</strong> — vote on what ships next. Your wishlist becomes our backlog.</div></li>
-        </ul>
+        <a href="agentic-commerce.html#apply" class="btn-primary" style="font-size: 16px; padding: 18px 36px;">Apply on Agentic Commerce <span>→</span></a>
 
-        <div class="waitlist-meta">
-          <div class="meta-row">
-            <div class="meta-num">47</div>
-            <div class="meta-l">Spots remaining</div>
-          </div>
-          <div class="meta-row">
-            <div class="meta-num">2.1%</div>
-            <div class="meta-l">Acceptance rate</div>
-          </div>
-          <div class="meta-row">
-            <div class="meta-num">48 hr</div>
-            <div class="meta-l">Decision turnaround</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="waitlist-right">
-        <form action="https://formsubmit.co/aditya@veltrum.io" method="POST" class="waitlist-form" id="waitlistForm">
-          <input type="hidden" name="_subject" value="🚀 New Veltrum closed-beta application">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_next" value="https://veltrum.io/?applied=1">
-          <input type="text" name="_honey" style="display:none" />
-
-          <div class="form-h">Application</div>
-          <div class="form-sub">Takes 60 seconds.</div>
-
-          <div class="field">
-            <label>Full name</label>
-            <input type="text" name="Name" placeholder="Aarav Mehta" required />
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label>Mobile number</label>
-              <input type="tel" name="Mobile Number" placeholder="+91 98765 43210" required pattern="[0-9+\s\-]{8,20}" />
-            </div>
-            <div class="field">
-              <label>Work email</label>
-              <input type="email" name="Email" placeholder="you@brand.com" required />
-            </div>
-          </div>
-
-          <div class="field">
-            <label>Brand name</label>
-            <input type="text" name="Brand Name" placeholder="Lyric & Co" required />
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label>Monthly GMV</label>
-              <select name="GMV" required>
-                <option value="">Select range</option>
-                <option>Under ₹10 lakh / mo</option>
-                <option>₹10 lakh – ₹50 lakh / mo</option>
-                <option>₹50 lakh – ₹2 Cr / mo</option>
-                <option>₹2 Cr – ₹10 Cr / mo</option>
-                <option>₹10 Cr+ / mo</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Team size</label>
-              <select name="People" required>
-                <option value="">Select size</option>
-                <option>1–10 people</option>
-                <option>11–50 people</option>
-                <option>51–200 people</option>
-                <option>201–500 people</option>
-                <option>500+ people</option>
-              </select>
-            </div>
-          </div>
-
-          <button type="submit" class="form-submit">
-            <span>Submit application</span>
-            <span class="arrow">→</span>
-          </button>
-
-          <div class="form-foot">
-            We review every application personally. <strong>You'll hear from us within 48 hours.</strong>
-          </div>
-        </form>
-
-        <div class="success-state" id="successState">
-          <div class="success-icon">✓</div>
-          <div class="success-h">Application received.</div>
-          <div class="success-d">A founder will be in touch within 48 hours. Watch for an email from <strong>aditya@veltrum.io</strong>.</div>
+        <div style="margin-top: 22px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;">
+          60-second form · founder reviews each application · 48-hour decision
         </div>
       </div>
     </div>
@@ -3205,9 +3204,14 @@
       <li><a href="#marketplace">Marketplace</a></li>
       <li><a href="#integrations">Integrations</a></li>
       <li><a href="#security">Security</a></li>
-      <li><a href="#waitlist">Apply for access</a></li>
+      <li><a href="agentic-commerce.html#apply">Apply for access</a></li>
+      <li><a href="agentic-commerce.html">Agentic Commerce</a></li>
+      <li><a href="agentic-tms.html">Agentic TMS</a></li>
+      <li><a href="agentic-calling.html">Agentic Calling</a></li>
+      <li><a href="contact.html">Contact</a></li>
       <li><a href="privacy.html">Privacy</a></li>
       <li><a href="terms.html">Terms</a></li>
+      <li><a href="data-deletion.html">Data Deletion</a></li>
     </ul>
   </div>
 </footer>
@@ -3260,10 +3264,10 @@
   window.addEventListener('scroll', () => {
     const cur = window.scrollY;
     if (cur > 80) {
-      nav.style.background = 'rgba(7, 6, 13, 0.85)';
+      nav.style.background = 'rgba(0, 0, 0, 0.85)';
       nav.style.boxShadow = '0 1px 0 0 rgba(255,255,255,0.05)';
     } else {
-      nav.style.background = 'rgba(7, 6, 13, 0.6)';
+      nav.style.background = 'rgba(0, 0, 0, 0.7)';
       nav.style.boxShadow = 'none';
     }
     lastScroll = cur;
@@ -3358,9 +3362,9 @@
     { n: 'Haven Threads', city: 'Delhi', gmv: '₹1.1 Cr/mo' },
   ];
   const colors = [
-    'linear-gradient(135deg, #8b5cf6, #22d3ee)',
-    'linear-gradient(135deg, #f472b6, #fb923c)',
+    'linear-gradient(135deg, #8b5cf6, #a78bfa)',
     'linear-gradient(135deg, #22d3ee, #14b8a6)',
+    'linear-gradient(135deg, #f472b6, #fb923c)',
     'linear-gradient(135deg, #fb923c, #facc15)',
     'linear-gradient(135deg, #34d399, #22d3ee)',
     'linear-gradient(135deg, #a78bfa, #f472b6)',
@@ -3408,33 +3412,6 @@
     });
   }, 6000);
 
-  // Form submission — graceful in-page success state
-  const form = document.getElementById('waitlistForm');
-  const success = document.getElementById('successState');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      // Show success state optimistically while real submission posts in background
-      e.preventDefault();
-      const data = new FormData(form);
-      const btn = form.querySelector('.form-submit');
-      btn.innerHTML = '<span>Submitting...</span>';
-      btn.style.opacity = '0.7';
-
-      fetch(form.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      }).then(() => {
-        form.style.display = 'none';
-        success.classList.add('show');
-        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }).catch(() => {
-        // Even on network error, show success — fall back to mailto-less behavior
-        form.style.display = 'none';
-        success.classList.add('show');
-      });
-    });
-  }
 </script>
 
 </body>

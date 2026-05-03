@@ -5,26 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Privacy Policy — Veltrum.io</title>
 <meta name="description" content="Veltrum.io privacy policy — how we collect, use, store, and protect personal data." />
+<link rel="icon" type="image/png" href="dark_1024h.png" />
+<link rel="apple-touch-icon" href="dark_1024h.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #07060d;
-    --bg-2: #0d0b18;
-    --surface: #14111f;
-    --surface-2: #1a1729;
+    --bg: #000000;
+    --bg-2: #050505;
+    --surface: #0c0c0c;
+    --surface-2: #141414;
     --border: rgba(255,255,255,0.08);
-    --border-strong: rgba(255,255,255,0.18);
-    --text: #f5f3ff;
-    --text-dim: #b8b3d4;
-    --text-muted: #7e7899;
+    --border-strong: rgba(255,255,255,0.22);
+    --text: #ffffff;
+    --text-dim: #b0b0b0;
+    --text-muted: #6a6a6a;
     --primary: #8b5cf6;
     --primary-2: #a78bfa;
     --accent: #22d3ee;
     --pink: #f472b6;
     --green: #34d399;
     --gradient: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+    --gradient-2: linear-gradient(135deg, #f472b6 0%, #8b5cf6 50%, #22d3ee 100%);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -45,8 +48,8 @@
   .grid-bg {
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
     background-image:
-      linear-gradient(rgba(139, 92, 246, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(139, 92, 246, 0.04) 1px, transparent 1px);
+      linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
     background-size: 60px 60px;
     mask-image: radial-gradient(ellipse at top, black 10%, transparent 70%);
     -webkit-mask-image: radial-gradient(ellipse at top, black 10%, transparent 70%);
@@ -63,7 +66,7 @@
     padding: 16px 5%;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    background: rgba(7, 6, 13, 0.7);
+    background: rgba(0, 0, 0, 0.7);
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
@@ -73,23 +76,24 @@
     display: flex; align-items: center; gap: 10px;
     font-weight: 800; font-size: 18px; letter-spacing: -0.02em;
   }
+  .logo-img { height: 130px; width: auto; display: block; filter: invert(1); mix-blend-mode: screen; margin: -50px -26px; }
   .logo-mark {
     width: 30px; height: 30px;
-    background: var(--gradient);
+    background: #ffffff;
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    color: #fff; font-weight: 800; font-size: 14px;
-    box-shadow: 0 0 20px rgba(139,92,246,0.4);
+    color: #000; font-weight: 800; font-size: 14px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.18);
   }
   .nav-links { display: flex; gap: 30px; list-style: none; }
   .nav-links a { color: var(--text-dim); font-size: 14px; font-weight: 500; }
   .nav-links a:hover { color: var(--text); text-decoration: none; }
   .nav-cta {
-    padding: 9px 18px; background: var(--gradient); color: #fff !important;
+    padding: 9px 18px; background: #ffffff; color: #000 !important;
     border-radius: 8px; font-weight: 600; font-size: 13px;
-    box-shadow: 0 0 20px rgba(139,92,246,0.3);
+    box-shadow: 0 0 20px rgba(255,255,255,0.18);
   }
-  .nav-cta:hover { text-decoration: none; transform: translateY(-1px); }
+  .nav-cta:hover { text-decoration: none; transform: translateY(-1px); background: #f0f0f0; }
 
   /* Header strip */
   .doc-head {
@@ -211,8 +215,8 @@
   .content strong { color: var(--text); font-weight: 600; }
 
   .callout {
-    background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(34,211,238,0.04));
-    border: 1px solid rgba(139,92,246,0.25);
+    background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+    border: 1px solid rgba(255,255,255,0.25);
     border-left: 3px solid var(--primary);
     padding: 18px 22px;
     border-radius: 12px;
@@ -281,6 +285,7 @@
     .doc-wrap { grid-template-columns: 1fr; gap: 32px; padding: 40px 6% 80px; }
     .toc { position: static; max-height: none; padding: 18px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; }
     .nav-links { display: none; }
+    .logo-img { height: 92px; margin: -30px -18px; }
     .doc-head { padding: 60px 6% 40px; }
     .content h2 { font-size: 22px; }
   }
@@ -297,9 +302,8 @@
 <div class="blob blob-2"></div>
 
 <nav>
-  <a href="veltrum.html" class="logo" style="color: var(--text); text-decoration: none;">
-    <div class="logo-mark">V</div>
-    <span>Veltrum<span style="color: var(--text-muted)">.io</span></span>
+  <a href="veltrum.html" class="logo" style="color: var(--text); text-decoration: none;" aria-label="Veltrum.io home">
+    <img src="light_1024h.png" alt="Veltrum.io" class="logo-img" />
   </a>
   <ul class="nav-links">
     <li><a href="veltrum.html#solution">Platform</a></li>
@@ -307,7 +311,7 @@
     <li><a href="veltrum.html#security">Security</a></li>
     <li><a href="terms.html">Terms</a></li>
   </ul>
-  <a href="veltrum.html#waitlist" class="nav-cta">Apply for access →</a>
+  <a href="agentic-commerce.html#apply" class="nav-cta">Apply for access →</a>
 </nav>
 
 <header class="doc-head">
@@ -357,7 +361,7 @@
     <p>This policy applies to <strong>veltrum.io</strong>, our customer dashboard, our APIs, and any product, page or interaction that links to it. It does not apply to third-party services we integrate with — those are governed by their own privacy policies.</p>
     <div class="callout">
       <div class="callout-h">In short</div>
-      We only collect what we need to run the product. We never sell your data. You can ask us to export or delete it at any time by emailing <a href="mailto:privacy@veltrum.io">privacy@veltrum.io</a>.
+      We only collect what we need to run the product. We never sell your data. You can ask us to export or delete it at any time by emailing <a href="mailto:info@veltrum.io">info@veltrum.io</a>.
     </div>
 
     <h2 id="who"><span class="num">02</span><span>Who we are</span></h2>
@@ -421,7 +425,7 @@
     </ul>
 
     <h2 id="subprocessors"><span class="num">07</span><span>Sub-processors</span></h2>
-    <p>An always-current list of our sub-processors is available at <a href="#contact">privacy@veltrum.io</a> on request. Today they include:</p>
+    <p>An always-current list of our sub-processors is available from <a href="mailto:info@veltrum.io?subject=Sub-processors%20list">info@veltrum.io</a> on request. Today they include:</p>
     <table class="data">
       <thead>
         <tr><th>Vendor</th><th>Purpose</th><th>Region</th></tr>
@@ -455,7 +459,7 @@
       <li>Annual third-party penetration tests; SOC 2 Type II in progress.</li>
       <li>24/7 security monitoring with on-call rotation; documented incident response plan.</li>
     </ul>
-    <p>If you suspect a vulnerability, please email <a href="mailto:security@veltrum.io">security@veltrum.io</a>. We aim to acknowledge reports within 24 hours.</p>
+    <p>If you suspect a vulnerability, please email <a href="mailto:info@veltrum.io">info@veltrum.io</a>. We aim to acknowledge reports within 24 hours.</p>
 
     <h2 id="transfers"><span class="num">10</span><span>International transfers</span></h2>
     <p>Veltrum is operated from India and the United States. When personal data leaves your country of residence, we rely on Standard Contractual Clauses, the UK IDTA, and equivalent transfer mechanisms. A copy of the relevant clauses is available on request.</p>
@@ -471,7 +475,7 @@
       <li>Withdraw consent at any time.</li>
       <li>Lodge a complaint with your supervisory authority.</li>
     </ul>
-    <p>To exercise any of these, email <a href="mailto:privacy@veltrum.io">privacy@veltrum.io</a>. We aim to respond within 30 days.</p>
+    <p>To exercise any of these, email <a href="mailto:info@veltrum.io">info@veltrum.io</a>. We aim to respond within 30 days.</p>
 
     <h2 id="cookies"><span class="num">12</span><span>Cookies &amp; tracking</span></h2>
     <p>We use first-party cookies for essential functions (auth, CSRF, session) and a small set of third-party analytics tools (PostHog, Google Analytics) to understand how the product is used. You can opt out via the cookie banner on first visit, or by adjusting your browser settings.</p>
@@ -486,12 +490,12 @@
     <h2 id="contact"><span class="num">15</span><span>Contact</span></h2>
     <p>For any privacy questions, requests, or concerns, contact our Data Protection team:</p>
     <ul>
-      <li><strong>Email:</strong> <a href="mailto:privacy@veltrum.io">privacy@veltrum.io</a></li>
+      <li><strong>Email:</strong> <a href="mailto:info@veltrum.io">info@veltrum.io</a></li>
       <li><strong>Postal:</strong> Veltrum Technologies Pvt. Ltd., Hyderabad, Telangana, India</li>
     </ul>
     <div class="callout">
       <div class="callout-h">EU representative</div>
-      For EEA &amp; UK residents, we will appoint an Article 27 representative when our user base crosses the relevant thresholds. Until then, please write to <a href="mailto:privacy@veltrum.io">privacy@veltrum.io</a>.
+      For EEA &amp; UK residents, we will appoint an Article 27 representative when our user base crosses the relevant thresholds. Until then, please write to <a href="mailto:info@veltrum.io">info@veltrum.io</a>.
     </div>
 
   </article>
@@ -501,9 +505,13 @@
   <div>© 2026 Veltrum Technologies Pvt. Ltd. — The orchestration layer for modern commerce.</div>
   <ul>
     <li><a href="veltrum.html">Home</a></li>
+    <li><a href="agentic-commerce.html">Agentic Commerce</a></li>
+      <li><a href="agentic-tms.html">Agentic TMS</a></li>
+    <li><a href="agentic-calling.html">Agentic Calling</a></li>
     <li><a href="terms.html">Terms &amp; Conditions</a></li>
     <li><a href="privacy.html">Privacy</a></li>
-    <li><a href="mailto:hello@veltrum.io">Contact</a></li>
+    <li><a href="data-deletion.html">Data Deletion</a></li>
+    <li><a href="contact.html">Contact</a></li>
   </ul>
 </footer>
 

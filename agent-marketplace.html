@@ -3,28 +3,39 @@
 <head>
 <meta charset="UTF-8" />
 <title>Veltrum · Agent Marketplace</title>
+<link rel="icon" type="image/png" href="dark_1024h.png" />
+<link rel="apple-touch-icon" href="dark_1024h.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #07060d;
-    --bg-2: #0d0b18;
-    --surface: #14111f;
-    --surface-2: #1a1729;
-    --surface-3: #211d34;
+    --bg: #000000;
+    --bg-2: #050505;
+    --surface: #0c0c0c;
+    --surface-2: #141414;
+    --surface-3: #1c1c1c;
     --border: rgba(255,255,255,0.08);
-    --border-strong: rgba(255,255,255,0.18);
-    --text: #f5f3ff;
-    --text-dim: #a8a3c4;
-    --text-muted: #6e6889;
-    --primary: #8b5cf6;
+    --border-strong: rgba(255,255,255,0.22);
+    --text: #ffffff;
+    --text-dim: #a8a8a8;
+    --text-muted: #6a6a6a;
+    --primary: #ffffff;
     --accent: #22d3ee;
-    --pink: #f472b6;
-    --green: #34d399;
-    --orange: #fb923c;
-    --gradient: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+    --c-purple: #8b5cf6;
+    --c-violet: #a78bfa;
+    --c-cyan:   #22d3ee;
+    --c-teal:   #14b8a6;
+    --c-pink:   #f472b6;
+    --c-orange: #fb923c;
+    --c-amber:  #facc15;
+    --c-green:  #34d399;
+    --pink:  var(--c-pink);
+    --green: var(--c-green);
+    --orange: var(--c-orange);
+    --gradient: linear-gradient(135deg, #ffffff 0%, #d4d4d4 100%);
     --gradient-2: linear-gradient(135deg, #f472b6 0%, #8b5cf6 50%, #22d3ee 100%);
+    --gradient-cool: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -46,16 +57,16 @@
     pointer-events: none;
     z-index: 0;
   }
-  .blob-1 { width: 500px; height: 500px; background: #8b5cf6; opacity: 0.15; top: -180px; left: -100px; }
-  .blob-2 { width: 600px; height: 600px; background: #22d3ee; opacity: 0.12; bottom: -200px; right: -150px; }
-  .blob-3 { width: 400px; height: 400px; background: #f472b6; opacity: 0.08; top: 30%; left: 40%; }
+  .blob-1 { width: 500px; height: 500px; background: #8b5cf6; opacity: 0.18; top: -180px; left: -100px; }
+  .blob-2 { width: 600px; height: 600px; background: #22d3ee; opacity: 0.14; bottom: -200px; right: -150px; }
+  .blob-3 { width: 400px; height: 400px; background: #f472b6; opacity: 0.10; top: 30%; left: 40%; }
 
   .grid-bg {
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
     background-size: 60px 60px;
     mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
     -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
@@ -71,7 +82,7 @@
     border: 1px solid var(--border-strong);
     border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 100px rgba(139,92,246,0.1);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 100px rgba(255,255,255,0.1);
     height: calc(100% - 48px);
   }
   .browser-bar {
@@ -141,25 +152,25 @@
   .cart-bubble {
     width: 24px; height: 24px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #f472b6, #fb923c);
+    background: linear-gradient(135deg, #f472b6, #8b5cf6);
     color: #fff;
     font-weight: 700;
     font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 14px rgba(244,114,182,0.5);
+    box-shadow: 0 0 14px rgba(244, 114, 182, 0.5);
   }
   .hire-btn {
     padding: 10px 20px;
-    background: var(--gradient);
-    color: #fff;
+    background: #ffffff;
+    color: #000;
     border: none;
     border-radius: 9px;
     font-weight: 700;
     font-size: 13px;
     cursor: pointer;
-    box-shadow: 0 0 22px rgba(139,92,246,0.4);
+    box-shadow: 0 0 22px rgba(255,255,255,0.25);
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -217,7 +228,7 @@
     color: var(--text-muted);
   }
   .nav-item.active {
-    background: rgba(139, 92, 246, 0.12);
+    background: rgba(255, 255, 255, 0.12);
     color: var(--text);
     border-left: 2px solid var(--primary);
     padding-left: 10px;
@@ -270,8 +281,8 @@
     gap: 6px;
   }
   .chip.active {
-    background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(34,211,238,0.1));
-    border-color: var(--primary);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(34, 211, 238, 0.15));
+    border-color: var(--c-violet);
     color: var(--text);
   }
   .filter-result {
@@ -302,14 +313,14 @@
     flex-direction: column;
   }
   .card.in-org {
-    border-color: rgba(34, 211, 238, 0.4);
-    background: linear-gradient(180deg, rgba(34, 211, 238, 0.08) 0%, var(--surface-2) 60%);
+    border-color: rgba(255, 255, 255, 0.4);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, var(--surface-2) 60%);
   }
   .card.in-org::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at top right, rgba(34, 211, 238, 0.15), transparent 60%);
+    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.15), transparent 60%);
     pointer-events: none;
   }
 
@@ -362,24 +373,24 @@
     font-family: 'JetBrains Mono', monospace;
   }
   .badge.in-org {
-    background: rgba(34, 211, 238, 0.15);
+    background: rgba(255, 255, 255, 0.15);
     color: var(--accent);
-    border: 1px solid rgba(34, 211, 238, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   .badge.popular {
-    background: rgba(139, 92, 246, 0.15);
+    background: rgba(255, 255, 255, 0.15);
     color: #b59cff;
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   .badge.new {
-    background: rgba(52, 211, 153, 0.15);
+    background: rgba(255, 255, 255, 0.15);
     color: var(--green);
-    border: 1px solid rgba(52, 211, 153, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   .badge.recommended {
-    background: rgba(251, 146, 60, 0.15);
+    background: rgba(255, 255, 255, 0.15);
     color: var(--orange);
-    border: 1px solid rgba(251, 146, 60, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   .card-role {
@@ -404,11 +415,11 @@
     font-weight: 500;
     margin-bottom: 10px;
   }
-  .dept-tag.marketing { background: rgba(244, 114, 182, 0.12); color: var(--pink); }
-  .dept-tag.logistics { background: rgba(251, 146, 60, 0.12); color: var(--orange); }
-  .dept-tag.cx { background: rgba(34, 211, 238, 0.12); color: var(--accent); }
-  .dept-tag.finance { background: rgba(52, 211, 153, 0.12); color: var(--green); }
-  .dept-tag.inventory { background: rgba(167, 139, 250, 0.14); color: #c4b3ff; }
+  .dept-tag.marketing { background: rgba(255, 255, 255, 0.12); color: var(--pink); }
+  .dept-tag.logistics { background: rgba(255, 255, 255, 0.12); color: var(--orange); }
+  .dept-tag.cx { background: rgba(255, 255, 255, 0.12); color: var(--accent); }
+  .dept-tag.finance { background: rgba(255, 255, 255, 0.12); color: var(--green); }
+  .dept-tag.inventory { background: rgba(255, 255, 255, 0.14); color: #c4b3ff; }
 
   .card-desc {
     color: var(--text-dim);
@@ -460,7 +471,7 @@
     font-size: 11px;
   }
   .stars-icon {
-    color: #facc15;
+    color: #c0c0c0;
     letter-spacing: -1px;
     font-size: 10px;
   }
@@ -478,15 +489,15 @@
     gap: 6px;
   }
   .add-btn.in-org {
-    background: rgba(34, 211, 238, 0.18);
-    border-color: rgba(34, 211, 238, 0.4);
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.4);
     color: var(--accent);
   }
   .add-btn.gradient {
-    background: var(--gradient);
+    background: var(--gradient-cool);
     color: #fff;
     border: none;
-    box-shadow: 0 0 12px rgba(139,92,246,0.4);
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
   }
 
   /* Footer text overlay */
@@ -504,7 +515,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(7, 6, 13, 0.7);
+    background: rgba(0, 0, 0, 0.7);
     padding: 7px 16px;
     border-radius: 100px;
     border: 1px solid var(--border);
@@ -513,13 +524,13 @@
   .wm-logo {
     width: 16px; height: 16px;
     border-radius: 4px;
-    background: var(--gradient);
+    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 10px;
     font-weight: 800;
-    color: #fff;
+    color: #000;
   }
 </style>
 <script>
@@ -646,7 +657,7 @@
           <!-- Card 1 -->
           <div class="card in-org">
             <div class="card-top">
-              <div class="avatar" style="background: linear-gradient(135deg, #8b5cf6, #22d3ee)">AR</div>
+              <div class="avatar" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa); box-shadow: 0 6px 18px rgba(139, 92, 246, 0.3)">AR</div>
               <div class="badges">
                 <span class="badge in-org">In your org</span>
               </div>
@@ -665,7 +676,7 @@
                 <span class="kpi-l">CAC</span>
                 <span class="kpi-v">↓ ₹380</span>
               </div>
-              <div class="kpi-bar"><div class="kpi-fill" style="width: 70%; background: linear-gradient(90deg, #34d399, #22d3ee)"></div></div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 70%; background: linear-gradient(90deg, #fb923c, #facc15)"></div></div>
             </div>
             <div class="card-foot">
               <div class="stars"><span class="stars-icon">★★★★★</span> 4.9 · 3.2k</div>
@@ -676,7 +687,7 @@
           <!-- Card 2 -->
           <div class="card in-org">
             <div class="card-top">
-              <div class="avatar" style="background: linear-gradient(135deg, #f472b6, #fb923c)">PR</div>
+              <div class="avatar" style="background: linear-gradient(135deg, #22d3ee, #14b8a6); box-shadow: 0 6px 18px rgba(34, 211, 238, 0.3)">PR</div>
               <div class="badges">
                 <span class="badge in-org">In your org</span>
               </div>
@@ -690,7 +701,7 @@
                 <span class="kpi-l">Posts/wk</span>
                 <span class="kpi-v">5</span>
               </div>
-              <div class="kpi-bar"><div class="kpi-fill" style="width: 60%; background: linear-gradient(90deg, #f472b6, #8b5cf6)"></div></div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 60%; background: linear-gradient(90deg, #f472b6, #ededed)"></div></div>
               <div class="kpi-row" style="margin-top: 8px">
                 <span class="kpi-l">Engagement</span>
                 <span class="kpi-v">3.2%</span>
@@ -706,7 +717,7 @@
           <!-- Card 3 -->
           <div class="card">
             <div class="card-top">
-              <div class="avatar" style="background: linear-gradient(135deg, #facc15, #fb923c)">TR</div>
+              <div class="avatar" style="background: linear-gradient(135deg, #f472b6, #fb923c); box-shadow: 0 6px 18px rgba(244, 114, 182, 0.3)">TR</div>
               <div class="badges">
                 <span class="badge recommended">Recommended</span>
                 <span class="badge popular">Popular</span>
@@ -721,12 +732,12 @@
                 <span class="kpi-l">Active collabs</span>
                 <span class="kpi-v">8</span>
               </div>
-              <div class="kpi-bar"><div class="kpi-fill" style="width: 50%; background: linear-gradient(90deg, #facc15, #f472b6)"></div></div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 50%; background: linear-gradient(90deg, #34d399, #22d3ee)"></div></div>
               <div class="kpi-row" style="margin-top: 8px">
                 <span class="kpi-l">Avg EMV</span>
                 <span class="kpi-v">₹28k</span>
               </div>
-              <div class="kpi-bar"><div class="kpi-fill" style="width: 72%; background: linear-gradient(90deg, #fb923c, #facc15)"></div></div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 72%; background: linear-gradient(90deg, #a78bfa, #f472b6)"></div></div>
             </div>
             <div class="card-foot">
               <div class="stars"><span class="stars-icon">★★★★★</span> 4.5 · 780</div>
@@ -737,7 +748,7 @@
           <!-- Card 4 -->
           <div class="card">
             <div class="card-top">
-              <div class="avatar" style="background: linear-gradient(135deg, #34d399, #22d3ee)">NS</div>
+              <div class="avatar" style="background: linear-gradient(135deg, #fb923c, #facc15); box-shadow: 0 6px 18px rgba(251, 146, 60, 0.3)">NS</div>
               <div class="badges">
                 <span class="badge popular">Popular</span>
               </div>
@@ -751,7 +762,7 @@
                 <span class="kpi-l">Open rate</span>
                 <span class="kpi-v">28%</span>
               </div>
-              <div class="kpi-bar"><div class="kpi-fill" style="width: 56%; background: linear-gradient(90deg, #34d399, #22d3ee)"></div></div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 56%; background: linear-gradient(90deg, #fb923c, #facc15)"></div></div>
               <div class="kpi-row" style="margin-top: 8px">
                 <span class="kpi-l">₹/email</span>
                 <span class="kpi-v">₹42</span>
@@ -767,7 +778,7 @@
           <!-- Card 5 -->
           <div class="card">
             <div class="card-top">
-              <div class="avatar" style="background: linear-gradient(135deg, #22d3ee, #14b8a6)">AR</div>
+              <div class="avatar" style="background: linear-gradient(135deg, #34d399, #22d3ee); box-shadow: 0 6px 18px rgba(52, 211, 153, 0.3)">AR</div>
               <div class="badges">
                 <span class="badge recommended">Recommended</span>
                 <span class="badge popular">Popular</span>
@@ -782,7 +793,7 @@
                 <span class="kpi-l">Open rate</span>
                 <span class="kpi-v">54%</span>
               </div>
-              <div class="kpi-bar"><div class="kpi-fill" style="width: 88%; background: linear-gradient(90deg, #22d3ee, #34d399)"></div></div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 88%; background: linear-gradient(90deg, #22d3ee, #14b8a6)"></div></div>
               <div class="kpi-row" style="margin-top: 8px">
                 <span class="kpi-l">CTR</span>
                 <span class="kpi-v">18%</span>
@@ -798,7 +809,7 @@
           <!-- Card 6 -->
           <div class="card">
             <div class="card-top">
-              <div class="avatar" style="background: linear-gradient(135deg, #a78bfa, #f472b6)">RH</div>
+              <div class="avatar" style="background: linear-gradient(135deg, #a78bfa, #f472b6); box-shadow: 0 6px 18px rgba(167, 139, 250, 0.3)">RH</div>
               <div class="badges">
                 <span class="badge new">New</span>
               </div>
@@ -812,7 +823,7 @@
                 <span class="kpi-l">Attribution acc.</span>
                 <span class="kpi-v">91%</span>
               </div>
-              <div class="kpi-bar"><div class="kpi-fill" style="width: 91%; background: linear-gradient(90deg, #a78bfa, #f472b6)"></div></div>
+              <div class="kpi-bar"><div class="kpi-fill" style="width: 91%; background: linear-gradient(90deg, #8b5cf6, #a78bfa)"></div></div>
               <div class="kpi-row" style="margin-top: 8px">
                 <span class="kpi-l">Overlap ↓</span>
                 <span class="kpi-v">18%</span>

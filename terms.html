@@ -5,26 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Terms &amp; Conditions — Veltrum.io</title>
 <meta name="description" content="Veltrum.io terms of service governing use of the platform, APIs and connected services." />
+<link rel="icon" type="image/png" href="dark_1024h.png" />
+<link rel="apple-touch-icon" href="dark_1024h.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #07060d;
-    --bg-2: #0d0b18;
-    --surface: #14111f;
-    --surface-2: #1a1729;
+    --bg: #000000;
+    --bg-2: #050505;
+    --surface: #0c0c0c;
+    --surface-2: #141414;
     --border: rgba(255,255,255,0.08);
-    --border-strong: rgba(255,255,255,0.18);
-    --text: #f5f3ff;
-    --text-dim: #b8b3d4;
-    --text-muted: #7e7899;
+    --border-strong: rgba(255,255,255,0.22);
+    --text: #ffffff;
+    --text-dim: #b0b0b0;
+    --text-muted: #6a6a6a;
     --primary: #8b5cf6;
     --primary-2: #a78bfa;
     --accent: #22d3ee;
     --pink: #f472b6;
     --green: #34d399;
+    --orange: #fb923c;
     --gradient: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+    --gradient-2: linear-gradient(135deg, #f472b6 0%, #8b5cf6 50%, #22d3ee 100%);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -44,8 +48,8 @@
   .grid-bg {
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
     background-image:
-      linear-gradient(rgba(139, 92, 246, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(139, 92, 246, 0.04) 1px, transparent 1px);
+      linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
     background-size: 60px 60px;
     mask-image: radial-gradient(ellipse at top, black 10%, transparent 70%);
     -webkit-mask-image: radial-gradient(ellipse at top, black 10%, transparent 70%);
@@ -53,15 +57,15 @@
   .blob {
     position: fixed; border-radius: 50%; filter: blur(140px); opacity: 0.18; z-index: 0; pointer-events: none;
   }
-  .blob-1 { width: 600px; height: 600px; background: #22d3ee; top: -250px; right: -200px; opacity: 0.12; }
-  .blob-2 { width: 500px; height: 500px; background: #f472b6; top: 30%; left: -200px; opacity: 0.1; }
+  .blob-1 { width: 600px; height: 600px; background: #22d3ee; top: -250px; right: -200px; opacity: 0.14; }
+  .blob-2 { width: 500px; height: 500px; background: #f472b6; top: 30%; left: -200px; opacity: 0.10; }
 
   nav {
     position: sticky; top: 0; z-index: 50;
     padding: 16px 5%;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    background: rgba(7, 6, 13, 0.7);
+    background: rgba(0, 0, 0, 0.7);
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
@@ -71,23 +75,24 @@
     display: flex; align-items: center; gap: 10px;
     font-weight: 800; font-size: 18px; letter-spacing: -0.02em;
   }
+  .logo-img { height: 130px; width: auto; display: block; filter: invert(1); mix-blend-mode: screen; margin: -50px -26px; }
   .logo-mark {
     width: 30px; height: 30px;
-    background: var(--gradient);
+    background: #ffffff;
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    color: #fff; font-weight: 800; font-size: 14px;
-    box-shadow: 0 0 20px rgba(139,92,246,0.4);
+    color: #000; font-weight: 800; font-size: 14px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.18);
   }
   .nav-links { display: flex; gap: 30px; list-style: none; }
   .nav-links a { color: var(--text-dim); font-size: 14px; font-weight: 500; }
   .nav-links a:hover { color: var(--text); text-decoration: none; }
   .nav-cta {
-    padding: 9px 18px; background: var(--gradient); color: #fff !important;
+    padding: 9px 18px; background: #ffffff; color: #000 !important;
     border-radius: 8px; font-weight: 600; font-size: 13px;
-    box-shadow: 0 0 20px rgba(139,92,246,0.3);
+    box-shadow: 0 0 20px rgba(255,255,255,0.18);
   }
-  .nav-cta:hover { text-decoration: none; transform: translateY(-1px); }
+  .nav-cta:hover { text-decoration: none; transform: translateY(-1px); background: #f0f0f0; }
 
   .doc-head {
     position: relative; z-index: 1;
@@ -202,8 +207,8 @@
   .content strong { color: var(--text); font-weight: 600; }
 
   .callout {
-    background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(34,211,238,0.04));
-    border: 1px solid rgba(139,92,246,0.25);
+    background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+    border: 1px solid rgba(255,255,255,0.25);
     border-left: 3px solid var(--primary);
     padding: 18px 22px;
     border-radius: 12px;
@@ -225,7 +230,7 @@
   .legal-block {
     background: var(--surface-2);
     border: 1px solid var(--border);
-    border-left: 3px solid var(--orange, #fb923c);
+    border-left: 3px solid var(--orange);
     border-radius: 10px;
     padding: 16px 20px;
     color: var(--text-dim);
@@ -256,6 +261,7 @@
     .doc-wrap { grid-template-columns: 1fr; gap: 32px; padding: 40px 6% 80px; }
     .toc { position: static; max-height: none; padding: 18px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; }
     .nav-links { display: none; }
+    .logo-img { height: 92px; margin: -30px -18px; }
     .doc-head { padding: 60px 6% 40px; }
     .content h2 { font-size: 22px; }
   }
@@ -272,9 +278,8 @@
 <div class="blob blob-2"></div>
 
 <nav>
-  <a href="veltrum.html" class="logo" style="color: var(--text); text-decoration: none;">
-    <div class="logo-mark">V</div>
-    <span>Veltrum<span style="color: var(--text-muted)">.io</span></span>
+  <a href="veltrum.html" class="logo" style="color: var(--text); text-decoration: none;" aria-label="Veltrum.io home">
+    <img src="light_1024h.png" alt="Veltrum.io" class="logo-img" />
   </a>
   <ul class="nav-links">
     <li><a href="veltrum.html#solution">Platform</a></li>
@@ -282,7 +287,7 @@
     <li><a href="veltrum.html#security">Security</a></li>
     <li><a href="privacy.html">Privacy</a></li>
   </ul>
-  <a href="veltrum.html#waitlist" class="nav-cta">Apply for access →</a>
+  <a href="agentic-commerce.html#apply" class="nav-cta">Apply for access →</a>
 </nav>
 
 <header class="doc-head">
@@ -438,7 +443,7 @@
     <h2 id="contact"><span class="num">20</span><span>Contact</span></h2>
     <p>For any legal or contractual questions, contact:</p>
     <ul>
-      <li><strong>Email:</strong> <a href="mailto:legal@veltrum.io">legal@veltrum.io</a></li>
+      <li><strong>Email:</strong> <a href="mailto:info@veltrum.io">info@veltrum.io</a></li>
       <li><strong>Postal:</strong> Veltrum Technologies Pvt. Ltd., Hyderabad, Telangana, India</li>
     </ul>
 
@@ -449,9 +454,13 @@
   <div>© 2026 Veltrum Technologies Pvt. Ltd. — The orchestration layer for modern commerce.</div>
   <ul>
     <li><a href="veltrum.html">Home</a></li>
+    <li><a href="agentic-commerce.html">Agentic Commerce</a></li>
+      <li><a href="agentic-tms.html">Agentic TMS</a></li>
+    <li><a href="agentic-calling.html">Agentic Calling</a></li>
     <li><a href="terms.html">Terms &amp; Conditions</a></li>
     <li><a href="privacy.html">Privacy</a></li>
-    <li><a href="mailto:hello@veltrum.io">Contact</a></li>
+    <li><a href="data-deletion.html">Data Deletion</a></li>
+    <li><a href="contact.html">Contact</a></li>
   </ul>
 </footer>
 

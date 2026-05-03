@@ -19,6 +19,38 @@
     {
       "source": "/terms",
       "destination": "/terms.html"
+    },
+    {
+      "source": "/data-deletion",
+      "destination": "/data-deletion.html"
+    },
+    {
+      "source": "/agentic-calling",
+      "destination": "/agentic-calling.html"
+    },
+    {
+      "source": "/AgenticCalling",
+      "destination": "/agentic-calling.html"
+    },
+    {
+      "source": "/agentic-commerce",
+      "destination": "/agentic-commerce.html"
+    },
+    {
+      "source": "/AgenticCommerce",
+      "destination": "/agentic-commerce.html"
+    },
+    {
+      "source": "/apply",
+      "destination": "/agentic-commerce.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact.html"
+    },
+    {
+      "source": "/Contact",
+      "destination": "/contact.html"
     }
   ]
 }
