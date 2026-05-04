@@ -1,6 +1,4 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
     {
       "source": "/",
@@ -15,8 +13,28 @@
       "destination": "/agentic-tms.html"
     },
     {
+      "source": "/privacy",
+      "destination": "/privacy.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms.html"
+    },
+    {
+      "source": "/data-deletion",
+      "destination": "/data-deletion.html"
+    },
+    {
+      "source": "/agentic-calling",
+      "destination": "/agentic-calling.html"
+    },
+    {
       "source": "/AgenticCalling",
       "destination": "/agentic-calling.html"
+    },
+    {
+      "source": "/agentic-commerce",
+      "destination": "/agentic-commerce.html"
     },
     {
       "source": "/AgenticCommerce",
@@ -25,6 +43,10 @@
     {
       "source": "/apply",
       "destination": "/agentic-commerce.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact.html"
     },
     {
       "source": "/Contact",
