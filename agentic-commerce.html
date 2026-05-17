@@ -859,7 +859,119 @@
     .scarcity-bar { grid-template-columns: 1fr; gap: 18px; padding: 20px; }
     .scarcity-divider { width: 80%; height: 1px; margin: 0 auto; }
     .apply-meta { grid-template-columns: 1fr; }
+    .plans-grid { grid-template-columns: 1fr; gap: 20px; }
+    .plan-card.popular { transform: none; }
+    .pricing-controls { flex-direction: column; gap: 12px; align-items: flex-start; }
   }
+</style>
+<style>
+  /* ── PRICING ── */
+  .pricing-section { background: var(--bg-2); }
+  .pricing-controls {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px; margin-bottom: 48px;
+  }
+  .toggle-group {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 100px; padding: 5px;
+  }
+  .toggle-btn {
+    padding: 7px 18px; border-radius: 100px; border: none; cursor: pointer;
+    font-size: 14px; font-weight: 500; font-family: inherit;
+    background: transparent; color: var(--text-dim); transition: all .2s;
+  }
+  .toggle-btn.active {
+    background: #ffffff; color: #000000;
+  }
+  .toggle-badge {
+    font-size: 11px; font-weight: 600; background: var(--c-green);
+    color: #000; padding: 2px 8px; border-radius: 100px; margin-left: 4px;
+  }
+  .plans-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    align-items: start;
+  }
+  .plan-card {
+    border-radius: 20px; border: 1px solid var(--border);
+    background: var(--surface); padding: 32px;
+    position: relative; transition: border-color .2s;
+  }
+  .plan-card:hover { border-color: var(--border-strong); }
+  .plan-card.popular {
+    background: #ffffff; color: #000;
+    border-color: transparent;
+    transform: translateY(-8px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  }
+  .plan-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg, #8b5cf6, #22d3ee);
+    color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    padding: 6px 14px; border-radius: 100px;
+    margin-bottom: 20px;
+  }
+  .plan-tier {
+    font-size: 12px; font-weight: 700; letter-spacing: .12em;
+    color: var(--text-muted); margin-bottom: 12px;
+  }
+  .plan-card.popular .plan-tier { color: #888; }
+  .plan-price-wrap { margin-bottom: 6px; }
+  .plan-price {
+    font-size: 52px; font-weight: 800; line-height: 1; letter-spacing: -.02em;
+  }
+  .plan-price .currency { font-size: 28px; vertical-align: super; font-weight: 700; }
+  .plan-price .per { font-size: 16px; font-weight: 400; color: var(--text-dim); }
+  .plan-card.popular .plan-price .per { color: #666; }
+  .plan-desc { font-size: 14px; color: var(--text-dim); margin-bottom: 24px; }
+  .plan-card.popular .plan-desc { color: #555; }
+  .plan-credits-box {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface-2); border-radius: 12px; padding: 14px 16px;
+    margin-bottom: 24px;
+  }
+  .plan-card.popular .plan-credits-box { background: #f0f0f0; }
+  .plan-credits-icon { font-size: 20px; }
+  .plan-credits-num { font-size: 18px; font-weight: 700; }
+  .plan-credits-label { font-size: 13px; color: var(--text-dim); }
+  .plan-card.popular .plan-credits-label { color: #666; }
+  .plan-features { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
+  .plan-features li {
+    display: flex; align-items: flex-start; gap: 9px;
+    font-size: 14px; line-height: 1.4;
+  }
+  .plan-features .fcheck {
+    width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; margin-top: 1px;
+    background: rgba(52,211,153,.15); color: var(--c-green);
+    display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700;
+  }
+  .plan-card.popular .plan-features .fcheck { background: rgba(52,211,153,.2); color: #16a34a; }
+  .plan-card.popular .plan-features li { color: #222; }
+  .plan-cta {
+    display: block; width: 100%; margin-top: 28px;
+    padding: 13px 0; border-radius: 12px; border: none; cursor: pointer;
+    font-size: 15px; font-weight: 600; font-family: inherit; text-align: center;
+    text-decoration: none; transition: all .2s;
+  }
+  .plan-cta.outline {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border-strong);
+  }
+  .plan-cta.outline:hover { border-color: var(--text); }
+  .plan-cta.filled {
+    background: linear-gradient(135deg, #8b5cf6, #22d3ee); color: #fff;
+  }
+  .plan-cta.filled:hover { opacity: .9; }
+  .plan-cta.dark {
+    background: #111; color: #fff; border: 1px solid #333;
+  }
+  .plan-cta.dark:hover { background: #222; }
+  .plan-divider {
+    height: 1px; background: var(--border); margin: 20px 0;
+  }
+  .plan-card.popular .plan-divider { background: #e5e5e5; }
+  .price-val { display: none; }
+  .price-val.active { display: inline; }
 </style>
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -906,6 +1018,7 @@
     <li><a href="#agents">Agents</a></li>
     <li><a href="#integrations">Integrations</a></li>
     <li><a href="#outcomes">Outcomes</a></li>
+    <li><a href="#pricing">Pricing</a></li>
   </ul>
   <a href="#apply" class="nav-cta">Apply for access →</a>
 </nav>
@@ -1232,6 +1345,116 @@
   </div>
 </section>
 
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="reveal" style="max-width:1100px;margin:0 auto;padding:0 5%;">
+    <div class="section-eyebrow">Simple pricing</div>
+    <h2 class="section-title" style="margin-bottom:12px;">Plans that grow<br><span class="gradient-text">with your brand.</span></h2>
+    <p class="section-subtitle" style="margin-bottom:48px;">Start free, scale when ready. No contracts, cancel anytime.</p>
+
+    <div class="pricing-controls">
+      <div class="toggle-group" id="billingToggle">
+        <button class="toggle-btn active" data-billing="monthly" onclick="setBilling('monthly')">Monthly</button>
+        <button class="toggle-btn" data-billing="annual" onclick="setBilling('annual')">Annual <span class="toggle-badge">2 months free</span></button>
+      </div>
+      <div class="toggle-group" id="currencyToggle">
+        <button class="toggle-btn active" data-currency="inr" onclick="setCurrency('inr')">₹ INR</button>
+        <button class="toggle-btn" data-currency="usd" onclick="setCurrency('usd')">$ USD</button>
+      </div>
+    </div>
+
+    <div class="plans-grid">
+
+      <!-- FREE -->
+      <div class="plan-card">
+        <div class="plan-tier">FREE</div>
+        <div class="plan-price-wrap">
+          <div class="plan-price">Free</div>
+        </div>
+        <div class="plan-desc">Get started with core analytics</div>
+        <div class="plan-credits-box">
+          <span class="plan-credits-icon">🪙</span>
+          <div>
+            <div class="plan-credits-num">1,000 AI Credits</div>
+            <div class="plan-credits-label">per month</div>
+          </div>
+        </div>
+        <ul class="plan-features">
+          <li><span class="fcheck">✓</span> Store Analytics</li>
+          <li><span class="fcheck">✓</span> Meta Ad Insights</li>
+          <li><span class="fcheck">✓</span> Orders &amp; Shipments</li>
+          <li><span class="fcheck">✓</span> Dashboards &amp; Reports</li>
+        </ul>
+        <a href="#apply" class="plan-cta outline">Get started free</a>
+      </div>
+
+      <!-- GROWTH -->
+      <div class="plan-card popular">
+        <div class="plan-badge">⭐ MOST POPULAR</div>
+        <div class="plan-tier">GROWTH</div>
+        <div class="plan-price-wrap">
+          <div class="plan-price" style="color:#111;">
+            <span class="currency price-val active" id="g-inr-m">₹</span><span class="price-val active" id="g-price-inr-m">7,426</span>
+            <span class="currency price-val" id="g-usd-m">$</span><span class="price-val" id="g-price-usd-m">79</span>
+            <span class="currency price-val" id="g-inr-a">₹</span><span class="price-val" id="g-price-inr-a">6,188</span>
+            <span class="currency price-val" id="g-usd-a">$</span><span class="price-val" id="g-price-usd-a">66</span>
+            <span class="per">/month</span>
+          </div>
+        </div>
+        <div class="plan-desc">AI agents + smart workflows</div>
+        <div class="plan-credits-box">
+          <span class="plan-credits-icon">🪙</span>
+          <div>
+            <div class="plan-credits-num">4,000 AI Credits</div>
+            <div class="plan-credits-label">per month</div>
+          </div>
+        </div>
+        <ul class="plan-features">
+          <li><span class="fcheck">✓</span> Everything in Free</li>
+          <li><span class="fcheck">✓</span> Jiraiya — Supply &amp; Ops</li>
+          <li><span class="fcheck">✓</span> Roy — Finance</li>
+          <li><span class="fcheck">✓</span> Senku — Intelligence</li>
+          <li><span class="fcheck">✓</span> Zoro — Customer Support</li>
+          <li><span class="fcheck">✓</span> Hinata — Growth &amp; Retention</li>
+          <li><span class="fcheck">✓</span> Metered workflows (NDR, RTO, Carrier)</li>
+        </ul>
+        <a href="#apply" class="plan-cta filled">Apply for Growth</a>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="plan-card">
+        <div class="plan-tier">PREMIUM</div>
+        <div class="plan-price-wrap">
+          <div class="plan-price">
+            <span class="currency price-val active" id="p-inr-m">₹</span><span class="price-val active" id="p-price-inr-m">13,066</span>
+            <span class="currency price-val" id="p-usd-m">$</span><span class="price-val" id="p-price-usd-m">139</span>
+            <span class="currency price-val" id="p-inr-a">₹</span><span class="price-val" id="p-price-inr-a">10,888</span>
+            <span class="currency price-val" id="p-usd-a">$</span><span class="price-val" id="p-price-usd-a">116</span>
+            <span class="per">/month</span>
+          </div>
+        </div>
+        <div class="plan-desc">Full suite for scaling brands</div>
+        <div class="plan-credits-box">
+          <span class="plan-credits-icon">🪙</span>
+          <div>
+            <div class="plan-credits-num">10,000 AI Credits</div>
+            <div class="plan-credits-label">per month</div>
+          </div>
+        </div>
+        <ul class="plan-features">
+          <li><span class="fcheck">✓</span> Everything in Growth</li>
+          <li><span class="fcheck">✓</span> Yuki — Content &amp; SEO</li>
+          <li><span class="fcheck">✓</span> Full Meta Suite (Manager, Creator, Insights)</li>
+          <li><span class="fcheck">✓</span> Lelouch — Performance Marketing</li>
+          <li><span class="fcheck">✓</span> Sora — CRO</li>
+        </ul>
+        <a href="#apply" class="plan-cta dark">Apply for Premium</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- APPLICATION -->
 <section class="apply-section" id="apply">
   <div class="apply-wrap reveal">
@@ -1377,6 +1600,38 @@
 </footer>
 
 <script>
+  // Pricing toggles
+  let activeBilling = 'monthly', activeCurrency = 'inr';
+  const priceIds = {
+    growth: { inr: { monthly: '7,426', annual: '6,188' }, usd: { monthly: '79', annual: '66' } },
+    premium: { inr: { monthly: '13,066', annual: '10,888' }, usd: { monthly: '139', annual: '116' } }
+  };
+  function updatePrices() {
+    ['g-inr-m','g-usd-m','g-inr-a','g-usd-a',
+     'g-price-inr-m','g-price-usd-m','g-price-inr-a','g-price-usd-a',
+     'p-inr-m','p-usd-m','p-inr-a','p-usd-a',
+     'p-price-inr-m','p-price-usd-m','p-price-inr-a','p-price-usd-a'
+    ].forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('active'); });
+    const b = activeBilling === 'monthly' ? 'm' : 'a';
+    const c = activeCurrency;
+    ['g','p'].forEach(plan => {
+      const sym = document.getElementById(plan + '-' + c + '-' + b);
+      const num = document.getElementById(plan + '-price-' + c + '-' + b);
+      if (sym) sym.classList.add('active');
+      if (num) num.classList.add('active');
+    });
+  }
+  function setBilling(v) {
+    activeBilling = v;
+    document.querySelectorAll('#billingToggle .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.billing === v));
+    updatePrices();
+  }
+  function setCurrency(v) {
+    activeCurrency = v;
+    document.querySelectorAll('#currencyToggle .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.currency === v));
+    updatePrices();
+  }
+
   // Reveal on scroll
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
