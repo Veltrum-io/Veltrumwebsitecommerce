@@ -1,0 +1,9 @@
+# Veltrum.io — The n8n for Commerce
+
+## Products
+- [Agentic Commerce for D2C — Veltrum.io](https://veltrum.io/agentic-commerce.html): The orchestration layer for modern D2C commerce. Connectors, agents, marketplace and live ops — all in one platform.
+- [Agentic Calling for Ecommerce — Veltrum.io](https://veltrum.io/agentic-calling.html): Voice agents that sound human and run your ecommerce calling — pre-shipment confirmation, NDR resolution, abandoned...
+- [Contact — Veltrum.io](https://veltrum.io/contact.html): Get in touch with Veltrum.io. Registered office in Hyderabad, India. Reach us at info@veltrum.io.
+- [Privacy Policy — Veltrum.io](https://veltrum.io/privacy.html): Veltrum.io privacy policy — how we collect, use, store, and protect personal data.
+- [Terms & Conditions — Veltrum.io](https://veltrum.io/terms.html): Veltrum.io terms of service governing use of the platform, APIs and connected services.
+- [Data Deletion Request — Veltrum.io](https://veltrum.io/data-deletion.html): How to request deletion of your personal data from Veltrum.io, including data sourced from connected platforms such as...
