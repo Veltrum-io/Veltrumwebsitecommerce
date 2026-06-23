@@ -1263,16 +1263,17 @@ document.getElementById('apply-form').addEventListener('submit', async function(
   btn.disabled = true;
 
   try {
+    const fd = new FormData();
+    fd.append('brand_name',  form.brand_name.value);
+    fd.append('monthly_gmv', form.monthly_gmv.value);
+    fd.append('email',       form.email.value);
+    fd.append('message',     form.message.value);
+    fd.append('_subject',    'Veltrum Early Access Application');
+    fd.append('_captcha',    'false');
     const res = await fetch('https://formsubmit.co/ajax/info@veltrum.io', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        brand_name:  form.brand_name.value,
-        monthly_gmv: form.monthly_gmv.value,
-        email:       form.email.value,
-        message:     form.message.value,
-        _subject:    'Veltrum Early Access Application'
-      })
+      headers: { 'Accept': 'application/json' },
+      body: fd
     });
     const data = await res.json();
     if (data.success === 'true' || data.success === true) {
