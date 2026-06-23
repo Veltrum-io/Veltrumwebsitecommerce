@@ -9,33 +9,35 @@
 <link rel="apple-touch-icon" href="dark_1024h.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #000000;
-    --bg-2: #050505;
-    --surface: #0c0c0c;
-    --surface-2: #141414;
-    --border: rgba(255,255,255,0.08);
-    --border-strong: rgba(255,255,255,0.22);
-    --text: #ffffff;
-    --text-dim: #b0b0b0;
-    --text-muted: #6a6a6a;
-    --primary: #8b5cf6;
-    --primary-2: #a78bfa;
-    --accent: #22d3ee;
-    --pink: #f472b6;
-    --green: #34d399;
-    --gradient: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
-    --gradient-2: linear-gradient(135deg, #f472b6 0%, #8b5cf6 50%, #22d3ee 100%);
-  }
+  --bg:            #07070d;
+  --bg-2:          #0c0c18;
+  --surface:       rgba(255,255,255,0.04);
+  --surface-2:     rgba(255,255,255,0.06);
+  --border:        rgba(255,255,255,0.07);
+  --border-strong: rgba(255,255,255,0.14);
+  --text:          #ffffff;
+  --text-dim:      rgba(255,255,255,0.58);
+  --text-muted:    rgba(255,255,255,0.28);
+  --primary:       #00c4a0;
+  --primary-2:     #00c4a0;
+  --accent:        #ff7759;
+  --coral:         #ff7759;
+  --teal:          #00c4a0;
+  --green:         #34d399;
+  --orange:        #fb923c;
+  --gradient:      linear-gradient(135deg, #00c4a0 0%, #ff7759 100%);
+  --gradient-2:    linear-gradient(135deg, #9b72ff 0%, #00c4a0 50%, #ff7759 100%);
+}
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
     background: var(--bg);
     color: var(--text);
-    line-height: 1.7;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -44,47 +46,40 @@
   a { color: var(--primary-2); text-decoration: none; }
   a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 
-  .grid-bg {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background-image:
-      linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse at top, black 10%, transparent 70%);
-    -webkit-mask-image: radial-gradient(ellipse at top, black 10%, transparent 70%);
-  }
-  .blob {
-    position: fixed; border-radius: 50%; filter: blur(140px); opacity: 0.18; z-index: 0; pointer-events: none;
-  }
-  .blob-1 { width: 600px; height: 600px; background: #8b5cf6; top: -250px; left: -200px; }
-  .blob-2 { width: 500px; height: 500px; background: #22d3ee; top: 20%; right: -200px; opacity: 0.12; }
-
+  /* Nav */
   nav {
-    position: sticky; top: 0; z-index: 50;
-    padding: 16px 5%;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    background: rgba(0, 0, 0, 0.7);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
-  .logo-img { height: 130px; width: auto; display: block; filter: invert(1); mix-blend-mode: screen; margin: -50px -26px; }
-  .nav-links { display: flex; gap: 30px; list-style: none; }
-  .nav-links a { color: var(--text-dim); font-size: 14px; font-weight: 500; }
-  .nav-links a:hover { color: var(--text); text-decoration: none; }
-  .nav-cta {
-    padding: 9px 18px; background: #ffffff; color: #000 !important;
-    border-radius: 8px; font-weight: 600; font-size: 13px;
-    box-shadow: 0 0 20px rgba(255,255,255,0.18);
-  }
-  .nav-cta:hover { text-decoration: none; transform: translateY(-1px); background: #f0f0f0; }
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 64px;
+  border-bottom: 1px solid transparent;
+  transition: background .3s, border-color .3s;
+  font-family: 'Manrope', system-ui, sans-serif;
+}
+nav.scrolled {
+  background: rgba(7,7,13,0.92);
+  border-color: rgba(255,255,255,0.07);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.nav-inner {
+  max-width: 1160px; margin: 0 auto; padding: 0 40px;
+  height: 100%; display: flex; align-items: center; justify-content: space-between;
+}
+.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links a { font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.58); text-decoration: none; transition: color .15s; }
+.nav-links a:hover { color: #ffffff; text-decoration: none; }
+.nav-cta {
+  display: inline-flex; align-items: center;
+  background: #ffffff; color: #07070d;
+  font-size: 13px; font-weight: 500;
+  padding: 10px 22px; border-radius: 9999px;
+  text-decoration: none; transition: opacity .15s;
+}
+.nav-cta:hover { opacity: .85; }
+@media (max-width: 700px) { .nav-links { display: none; } }
 
   .doc-head {
     position: relative; z-index: 1;
-    padding: 80px 5% 50px;
+    padding: 104px 5% 50px;
     border-bottom: 1px solid var(--border);
   }
   .doc-head-wrap { max-width: 1180px; margin: 0 auto; }
@@ -246,25 +241,31 @@
   table.data td { color: var(--text-dim); background: var(--surface); }
   table.data tr:last-child td { border-bottom: none; }
 
+  /* Footer */
   footer {
-    border-top: 1px solid var(--border);
-    padding: 40px 5%;
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 13px;
-    position: relative; z-index: 1;
-  }
-  footer ul {
-    display: flex; gap: 24px; list-style: none;
-    justify-content: center; margin-top: 14px; flex-wrap: wrap;
-  }
-  footer ul a { color: var(--text-dim); }
+  background: #05080f;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 48px 0 28px;
+  font-family: 'Manrope', system-ui, sans-serif;
+}
+.footer-inner { max-width: 1160px; margin: 0 auto; padding: 0 40px; }
+.footer-links-row {
+  display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 28px;
+}
+.footer-links-row a {
+  font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45);
+  text-decoration: none; transition: color .15s;
+}
+.footer-links-row a:hover { color: #ffffff; }
+.footer-bottom-row {
+  border-top: 1px solid rgba(255,255,255,0.07); padding-top: 20px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.2);
+}
 
   @media (max-width: 900px) {
     .doc-wrap { grid-template-columns: 1fr; gap: 32px; padding: 40px 6% 80px; }
     .toc { position: static; max-height: none; padding: 18px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; }
-    .nav-links { display: none; }
-    .logo-img { height: 92px; margin: -30px -18px; }
     .doc-head { padding: 60px 6% 40px; }
     .content h2 { font-size: 22px; }
   }
@@ -276,22 +277,16 @@
 </head>
 <body>
 
-<div class="grid-bg"></div>
-<div class="blob blob-1"></div>
-<div class="blob blob-2"></div>
-
-<nav>
-  <a href="veltrum.html" class="logo" style="color: var(--text); text-decoration: none;" aria-label="Veltrum.io home">
-    <img src="light_1024h.png" alt="Veltrum.io" class="logo-img" />
-  </a>
-  <ul class="nav-links">
-    <li><a href="veltrum.html#solution">Platform</a></li>
-    <li><a href="veltrum.html#marketplace">Marketplace</a></li>
-    <li><a href="veltrum.html#security">Security</a></li>
-    <li><a href="privacy.html">Privacy</a></li>
-    <li><a href="terms.html">Terms</a></li>
-  </ul>
-  <a href="agentic-commerce.html#apply" class="nav-cta">Apply for access →</a>
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="index.html" style="text-decoration:none;"><img src="Big.png" alt="Veltrum" style="height:72px;display:block;" /></a>
+    <ul class="nav-links">
+      <li><a href="index.html#how">How it works</a></li>
+      <li><a href="agentic-commerce.html">Agentic Commerce</a></li>
+      <li><a href="index.html#agents">Agents</a></li>
+    </ul>
+    <a href="index.html#apply" class="nav-cta">Apply →</a>
+  </div>
 </nav>
 
 <header class="doc-head">
@@ -423,18 +418,31 @@
 </main>
 
 <footer>
-  <div>© 2026 Veltrum Technologies Pvt. Ltd. — The orchestration layer for modern commerce.</div>
-  <ul>
-    <li><a href="veltrum.html">Home</a></li>
-    <li><a href="agentic-commerce.html">Agentic Commerce</a></li>
-    <li><a href="terms.html">Terms &amp; Conditions</a></li>
-    <li><a href="privacy.html">Privacy</a></li>
-    <li><a href="data-deletion.html">Data Deletion</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
+  <div class="footer-inner">
+    <div class="footer-links-row">
+      <a href="index.html">Home</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#agents">The 9 Agents</a>
+      <a href="agentic-commerce.html">Agentic Commerce</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms &amp; Conditions</a>
+      <a href="data-deletion.html">Data Deletion</a>
+    </div>
+    <div class="footer-bottom-row">
+      <span>© 2026 Veltrum Technologies Pvt. Ltd. — Hyderabad, India</span>
+      <span>aditya@veltrum.io</span>
+    </div>
+  </div>
 </footer>
 
 <script>
+  /* NAV scroll glass */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
   // TOC scrollspy
   const links = document.querySelectorAll('.toc a');
   const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
