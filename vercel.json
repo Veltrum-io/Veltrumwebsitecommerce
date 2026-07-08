@@ -51,6 +51,22 @@
     {
       "source": "/Contact",
       "destination": "/contact.html"
+    },
+    {
+      "source": "/marketplaces",
+      "destination": "/marketplaces.html"
+    },
+    {
+      "source": "/Marketplaces",
+      "destination": "/marketplaces.html"
+    },
+    {
+      "source": "/amazon",
+      "destination": "/marketplaces.html"
+    },
+    {
+      "source": "/Amazon",
+      "destination": "/marketplaces.html"
     }
   ]
 }

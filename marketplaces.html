@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Veltrum — Marketplace Intelligence for Amazon Sellers</title>
+<meta name="description" content="Veltrum connects to your Amazon Seller Central account via the Selling Partner API and turns your own orders, inventory, and settlement data into a nightly action plan. Simple, transparent pricing." />
+<link rel="icon" type="image/png" href="Short.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --bg:        #07070d;
+  --bg-lift:   #0c0c18;
+  --bg-navy:   #070d1a;
+  --bg-card:   rgba(255,255,255,0.04);
+  --bdr:       rgba(255,255,255,0.07);
+  --bdr-hi:    rgba(255,255,255,0.13);
+  --white:     #ffffff;
+  --dim:       rgba(255,255,255,0.58);
+  --muted:     rgba(255,255,255,0.28);
+  --coral:     #ff7759;
+  --teal:      #00c4a0;
+  --pill:      9999px;
+  --r-sm:      8px;
+  --r-md:      16px;
+  --r-lg:      22px;
+  --font: 'Manrope', system-ui, -apple-system, sans-serif;
+}
+body {
+  font-family: var(--font); font-weight: 400;
+  background: var(--bg); color: var(--white);
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; line-height: 1.6;
+}
+.t-mono {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--coral);
+}
+.t-heading {
+  font-size: clamp(30px, 3.2vw, 48px); font-weight: 400;
+  line-height: 1.1; letter-spacing: -0.48px; color: var(--white);
+}
+.t-lead { font-size: 18px; font-weight: 300; line-height: 1.65; color: var(--dim); }
+.t-body { font-size: 16px; font-weight: 300; line-height: 1.65; color: var(--dim); }
+
+.container { max-width: 1160px; margin: 0 auto; padding: 0 40px; }
+section { padding: 100px 0; }
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--white); color: var(--bg);
+  font-family: var(--font); font-size: 14px; font-weight: 500;
+  padding: 14px 28px; border-radius: var(--pill);
+  text-decoration: none; border: none; cursor: pointer;
+  transition: opacity .18s, box-shadow .18s; white-space: nowrap;
+}
+.btn-primary:hover { opacity: .88; box-shadow: 0 0 0 3px rgba(255,255,255,0.15); }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--dim);
+  font-family: var(--font); font-size: 14px; font-weight: 400;
+  padding: 13px 28px; border-radius: var(--pill);
+  border: 1px solid var(--bdr-hi);
+  text-decoration: none; cursor: pointer;
+  transition: color .18s, border-color .18s; white-space: nowrap;
+}
+.btn-outline:hover { color: var(--white); border-color: rgba(255,255,255,0.28); }
+
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 100px; border-bottom: 1px solid transparent;
+  transition: background .3s, border-color .3s;
+}
+nav.scrolled {
+  background: rgba(7,7,13,0.92); border-color: var(--bdr);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+.nav-inner {
+  max-width: 1160px; margin: 0 auto; padding: 0 40px;
+  height: 100%; display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo-img { width: 300px; height: auto; display: block; }
+.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links a { font-size: 14px; font-weight: 400; color: var(--dim); text-decoration: none; transition: color .15s; }
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  display: inline-flex; align-items: center; background: var(--white); color: #07070d;
+  font-size: 13px; font-weight: 500; padding: 10px 22px; border-radius: var(--pill);
+  text-decoration: none; transition: opacity .15s;
+}
+.nav-cta:hover { opacity: .85; }
+.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.hamburger span { display: block; width: 20px; height: 1.5px; background: var(--dim); border-radius: 2px; }
+@media (max-width: 700px) {
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column; align-items: flex-start;
+    position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+    background: rgba(7,7,13,.97); padding: 28px 24px; gap: 0;
+    border-top: 1px solid var(--bdr); z-index: 99;
+  }
+  .nav-links.open li { width: 100%; padding: 18px 0; border-bottom: 1px solid var(--bdr); }
+  .nav-links.open a { font-size: 18px; color: var(--white); }
+  .hamburger { display: flex; }
+  .nav-cta { display: none; }
+}
+
+/* HERO (page intro, no canvas) */
+.mkt-hero {
+  padding: 168px 0 80px; border-bottom: 1px solid var(--bdr);
+  background: var(--bg-navy);
+}
+.mkt-hero .t-mono { margin-bottom: 20px; display: block; }
+.mkt-hero h1 {
+  font-size: clamp(38px, 4.5vw, 64px); font-weight: 300; line-height: 1.05;
+  letter-spacing: -1.2px; color: var(--white); margin-bottom: 22px; max-width: 780px;
+}
+.mkt-hero p { font-size: 17px; font-weight: 300; color: var(--dim); line-height: 1.72; max-width: 620px; }
+
+/* AMAZON SECTION */
+.amazon-sec { background: var(--bg); border-bottom: 1px solid var(--bdr); }
+.amazon-head { margin-bottom: 44px; }
+.amazon-head .badge {
+  display: inline-block; background: rgba(0,196,160,.08); border: 1px solid rgba(0,196,160,.22);
+  color: var(--teal); font-size: 10.5px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; padding: 5px 12px; border-radius: var(--r-sm); margin-bottom: 20px;
+}
+.amazon-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 1px;
+  background: var(--bdr); border-radius: var(--r-md); overflow: hidden; margin-bottom: 32px;
+}
+.amazon-card { background: var(--bg); padding: 30px 28px; transition: background .2s; }
+.amazon-card:hover { background: rgba(255,255,255,.03); }
+.amazon-bar { width: 28px; height: 2px; border-radius: 2px; margin-bottom: 18px; }
+.amazon-card h3 { font-size: 17px; font-weight: 500; color: var(--white); margin-bottom: 4px; }
+.amazon-card .role {
+  font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--coral); margin-bottom: 10px;
+}
+.amazon-card p { font-size: 13.5px; font-weight: 300; color: var(--dim); line-height: 1.6; }
+.amazon-note {
+  font-size: 13.5px; font-weight: 300; color: var(--muted); max-width: 680px; line-height: 1.65;
+}
+
+/* PRICING */
+.pricing-sec { background: var(--bg-navy); border-bottom: 1px solid var(--bdr); }
+.pricing-head { margin-bottom: 44px; }
+.plans {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 1px;
+  background: var(--bdr); border-radius: var(--r-md); overflow: hidden;
+}
+.plan { background: var(--bg-navy); padding: 32px 28px; }
+.plan-tier {
+  font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--coral); margin-bottom: 14px;
+}
+.plan-price { font-size: 30px; font-weight: 300; color: var(--white); margin-bottom: 10px; }
+.plan-price span { font-size: 14px; font-weight: 300; color: var(--muted); }
+.plan p { font-size: 13.5px; font-weight: 300; color: var(--dim); line-height: 1.65; }
+.pricing-cta { margin-top: 32px; text-align: center; }
+
+/* ROADMAP */
+.roadmap-sec { background: var(--bg); }
+.roadmap-head { margin-bottom: 36px; }
+.roadmap-list { display: flex; flex-wrap: wrap; gap: 12px; }
+.roadmap-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--bg-card); border: 1px solid var(--bdr);
+  border-radius: var(--pill); padding: 10px 20px;
+  font-size: 14px; font-weight: 400; color: var(--dim);
+}
+.roadmap-chip .soon {
+  font-size: 9px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); border: 1px solid var(--bdr-hi); border-radius: var(--r-sm);
+  padding: 2px 7px;
+}
+
+/* CTA */
+.mkt-cta-sec { background: var(--bg-navy); border-top: 1px solid var(--bdr); text-align: center; }
+.mkt-cta-sec p { max-width: 480px; margin: 0 auto 32px; }
+
+/* FOOTER */
+footer {
+  background: #05080f; border-top: 1px solid var(--bdr); padding: 56px 0 32px;
+}
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+.footer-logo-wrap { width: 260px; height: 70px; overflow: hidden; position: relative; margin-bottom: 16px; }
+.footer-logo { width: 260px; height: auto; display: block; position: absolute; top: 50%; transform: translateY(-50%); }
+.footer-tagline { font-size: 15px; font-weight: 300; color: var(--muted); line-height: 1.65; }
+.footer-col-head { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 16px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 15px; font-weight: 300; color: var(--muted); text-decoration: none; transition: color .15s; }
+.footer-links a:hover { color: var(--white); }
+.footer-bottom {
+  border-top: 1px solid var(--bdr); padding-top: 24px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  font-size: 13px; font-weight: 300; color: rgba(255,255,255,.2);
+}
+
+@media (max-width: 960px) {
+  .container { padding: 0 28px; }
+  .amazon-grid, .plans { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  section { padding: 72px 0; }
+  .mkt-hero { padding: 140px 0 56px; }
+}
+@media (max-width: 600px) {
+  .container { padding: 0 20px; }
+  .nav-inner { padding: 0 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════════════ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="index.html" style="text-decoration:none;"><img src="Big.png" alt="Veltrum" class="nav-logo-img" /></a>
+    <ul class="nav-links" id="navlinks">
+      <li><a href="index.html#how">How it works</a></li>
+      <li><a href="agentic-commerce.html">Agentic Commerce</a></li>
+      <li><a href="index.html#agents">Agents</a></li>
+      <li><a href="marketplaces.html">Marketplaces</a></li>
+    </ul>
+    <a href="index.html#apply" class="nav-cta">Apply →</a>
+    <button class="hamburger" id="ham" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ══════════════════════════════════════════════ -->
+<section class="mkt-hero">
+  <div class="container reveal">
+    <span class="t-mono">Marketplace Intelligence</span>
+    <h1>One council. Every marketplace you sell on.</h1>
+    <p>Veltrum plugs into the marketplaces where your brand sells and turns your own store data into a nightly action plan — the same council process that runs across Shopify, Meta, and WhatsApp. Live today on Amazon, with more marketplaces on the roadmap.</p>
+  </div>
+</section>
+
+<!-- ═══ AMAZON ════════════════════════════════════════════ -->
+<section class="amazon-sec" id="amazon">
+  <div class="container">
+    <div class="amazon-head reveal">
+      <span class="badge">Live today · Amazon Selling Partner API</span>
+      <h2 class="t-heading" style="max-width:680px;margin-bottom:16px;">Order, inventory &amp; margin intelligence — built entirely from your own Amazon store.</h2>
+      <p class="t-lead" style="max-width:640px;">Veltrum connects to your Amazon Seller Central account through the Selling Partner API and reads your own orders, inventory, and settlement data. Specialist agents turn that data into a nightly action plan, the same way they do for Shopify — reorder alerts, margin breakdowns, and sales trend reporting, delivered every morning.</p>
+    </div>
+
+    <div class="amazon-grid reveal">
+      <div class="amazon-card">
+        <div class="amazon-bar" style="background:#60a5fa;"></div>
+        <h3>Order &amp; inventory sync</h3>
+        <div class="role">Zoro · Inventory</div>
+        <p>Live sync of orders, stock levels, and returns from your Amazon account. Reorder alerts before you stock out, and dead-inventory flags before capital gets stuck.</p>
+      </div>
+      <div class="amazon-card">
+        <div class="amazon-bar" style="background:#facc15;"></div>
+        <h3>Margin &amp; fee breakdown</h3>
+        <div class="role">Roy · Finance</div>
+        <p>Reconciles referral fees, FBA charges, and ad spend against revenue to show true per-SKU margin — not just top-line sales.</p>
+      </div>
+      <div class="amazon-card">
+        <div class="amazon-bar" style="background:#818cf8;"></div>
+        <h3>Sales trend reporting</h3>
+        <div class="role">Senku · Business Analytics</div>
+        <p>Tracks day-over-day sales, conversion, and category trend signals for your own catalog — benchmarked against your own history, not other sellers.</p>
+      </div>
+    </div>
+
+    <p class="amazon-note reveal">All analytics above are generated exclusively from your own Amazon seller account data. Veltrum does not aggregate, benchmark, or share data across different sellers' accounts.</p>
+  </div>
+</section>
+
+<!-- ═══ PRICING ═══════════════════════════════════════════ -->
+<section class="pricing-sec" id="pricing">
+  <div class="container">
+    <div class="pricing-head reveal">
+      <div class="t-mono" style="margin-bottom:14px;">Pricing</div>
+      <h2 class="t-heading" style="max-width:480px;">Simple, transparent pricing — no hidden fees.</h2>
+      <p class="t-lead" style="margin-top:16px;max-width:520px;">The same plans apply whichever channel you sell on. Start free, upgrade when you're ready. No contracts, cancel anytime.</p>
+    </div>
+    <div class="plans reveal">
+      <div class="plan">
+        <div class="plan-tier">Free</div>
+        <div class="plan-price">₹0<span> / month</span></div>
+        <p>Store analytics, order &amp; shipment tracking, dashboards and reports. 1,000 AI credits/month.</p>
+      </div>
+      <div class="plan">
+        <div class="plan-tier">Growth</div>
+        <div class="plan-price">₹7,426<span> / month</span></div>
+        <p>Everything in Free, plus Finance, Inventory, Support and Growth agents. 4,000 AI credits/month.</p>
+      </div>
+      <div class="plan">
+        <div class="plan-tier">Premium</div>
+        <div class="plan-price">₹13,066<span> / month</span></div>
+        <p>Everything in Growth, plus the full marketing suite and performance agents. 10,000 AI credits/month.</p>
+      </div>
+    </div>
+    <div class="pricing-cta reveal">
+      <a href="agentic-commerce.html#pricing" class="btn-outline">See full plan details &amp; USD pricing →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ROADMAP ═══════════════════════════════════════════ -->
+<section class="roadmap-sec" id="roadmap">
+  <div class="container">
+    <div class="roadmap-head reveal">
+      <div class="t-mono" style="margin-bottom:14px;">Roadmap</div>
+      <h2 class="t-heading" style="max-width:480px;">More marketplaces, coming soon.</h2>
+      <p class="t-lead" style="margin-top:16px;max-width:520px;">Amazon is live today. We're extending the same council to other marketplaces next.</p>
+    </div>
+    <div class="roadmap-list reveal">
+      <span class="roadmap-chip">Nykaa <span class="soon">Coming soon</span></span>
+      <span class="roadmap-chip">Flipkart <span class="soon">Coming soon</span></span>
+      <span class="roadmap-chip">Myntra <span class="soon">Coming soon</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══════════════════════════════════════════════ -->
+<section class="mkt-cta-sec">
+  <div class="container reveal">
+    <div class="t-mono" style="margin-bottom:16px;">Get started</div>
+    <h2 class="t-heading" style="margin-bottom:16px;">Run your Amazon store<br>on a council.</h2>
+    <p class="t-body">Apply for early access — founders review every application personally.</p>
+    <a href="index.html#apply" class="btn-primary">Apply for early access →</a>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo-wrap"><img src="Big.png" alt="Veltrum" class="footer-logo" /></div>
+        <p class="footer-tagline">The intelligence layer for D2C brands.<br>Not a chatbot. A council.</p>
+      </div>
+      <div>
+        <div class="footer-col-head">Platform</div>
+        <ul class="footer-links">
+          <li><a href="index.html#how">How it works</a></li>
+          <li><a href="index.html#agents">The 9 Agents</a></li>
+          <li><a href="agentic-commerce.html">Agentic Commerce</a></li>
+          <li><a href="marketplaces.html">Marketplaces</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-head">Company</div>
+        <ul class="footer-links">
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="data-deletion.html">Data Deletion</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Veltrum Technologies Pvt. Ltd. — Hyderabad, India</span>
+      <span>aditya@veltrum.io</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+document.getElementById('ham').addEventListener('click', () => {
+  document.getElementById('navlinks').classList.toggle('open');
+});
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
